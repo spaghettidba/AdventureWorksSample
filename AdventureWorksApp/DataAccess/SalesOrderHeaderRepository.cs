@@ -181,7 +181,7 @@ namespace AdventureWorksApp.DataAccess
         public async Task<int> DeleteAsync(int salesOrderId)
         {
             using var connection = DbConnectionFactory.CreateConnection();
-            connection.Open();
+            await ((System.Data.Common.DbConnection)connection).OpenAsync();
             
             // Usiamo una transazione per eliminare prima i dettagli e poi l'header
             using var transaction = connection.BeginTransaction();

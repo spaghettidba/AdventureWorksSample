@@ -24,6 +24,11 @@ namespace AdventureWorksApp.Forms
     /// </summary>
     public partial class ProductForm : Form
     {
+        // Costanti per valori di default dei prodotti
+        // NOTA DIDATTICA: Questi valori rappresentano livelli di stock standard
+        private const short DEFAULT_SAFETY_STOCK_LEVEL = 100;
+        private const short DEFAULT_REORDER_POINT = 75;
+        
         // Repository per l'accesso ai dati
         private readonly ProductRepository _repository;
         
@@ -252,8 +257,8 @@ namespace AdventureWorksApp.Forms
             _currentProduct = new Product
             {
                 SellStartDate = DateTime.Today,
-                SafetyStockLevel = 100,
-                ReorderPoint = 75,
+                SafetyStockLevel = DEFAULT_SAFETY_STOCK_LEVEL,
+                ReorderPoint = DEFAULT_REORDER_POINT,
                 MakeFlag = false,
                 FinishedGoodsFlag = true
             };
@@ -303,8 +308,8 @@ namespace AdventureWorksApp.Forms
                     Color = string.IsNullOrWhiteSpace(textBoxColor.Text) ? null : textBoxColor.Text.Trim(),
                     ListPrice = decimal.TryParse(textBoxListPrice.Text, out var price) ? price : null,
                     StandardCost = decimal.TryParse(textBoxStandardCost.Text, out var cost) ? cost : 0,
-                    SafetyStockLevel = short.TryParse(textBoxSafetyStockLevel.Text, out var stock) ? stock : (short)100,
-                    ReorderPoint = short.TryParse(textBoxReorderPoint.Text, out var reorder) ? reorder : (short)75,
+                    SafetyStockLevel = short.TryParse(textBoxSafetyStockLevel.Text, out var stock) ? stock : DEFAULT_SAFETY_STOCK_LEVEL,
+                    ReorderPoint = short.TryParse(textBoxReorderPoint.Text, out var reorder) ? reorder : DEFAULT_REORDER_POINT,
                     MakeFlag = checkBoxMakeFlag.Checked,
                     FinishedGoodsFlag = checkBoxFinishedGoods.Checked,
                     SellStartDate = dateTimePickerSellStart.Value

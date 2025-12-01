@@ -27,6 +27,10 @@ namespace AdventureWorksApp.Forms
     /// </summary>
     public partial class SalesOrderDetailForm : Form
     {
+        // Costante per l'offerta speciale di default (nessuno sconto)
+        // NOTA DIDATTICA: In AdventureWorks, SpecialOfferID = 1 significa "No Discount"
+        private const int NO_DISCOUNT_SPECIAL_OFFER_ID = 1;
+        
         private readonly SalesOrderDetailRepository _detailRepository;
         private readonly ProductRepository _productRepository;
         private readonly SalesOrderHeaderRepository _headerRepository;
@@ -328,7 +332,7 @@ namespace AdventureWorksApp.Forms
             {
                 SalesOrderID = _filteredOrderId.Value,
                 OrderQty = 1,
-                SpecialOfferID = 1, // "No Discount" - default in AdventureWorks
+                SpecialOfferID = NO_DISCOUNT_SPECIAL_OFFER_ID,
                 UnitPriceDiscount = 0
             };
 
@@ -375,7 +379,7 @@ namespace AdventureWorksApp.Forms
                     OrderQty = (short)numericUpDownQty.Value,
                     UnitPrice = unitPrice,
                     UnitPriceDiscount = discount,
-                    SpecialOfferID = 1, // Default
+                    SpecialOfferID = NO_DISCOUNT_SPECIAL_OFFER_ID,
                     CarrierTrackingNumber = string.IsNullOrWhiteSpace(textBoxCarrierTracking.Text) 
                         ? null : textBoxCarrierTracking.Text
                 };

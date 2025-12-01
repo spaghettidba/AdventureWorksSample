@@ -23,6 +23,11 @@ namespace AdventureWorksApp.Forms
     /// </summary>
     public partial class SalesOrderHeaderForm : Form
     {
+        // Costanti per valori di default (usati quando si crea un nuovo ordine)
+        // NOTA DIDATTICA: In produzione questi valori andrebbero selezionati dall'utente
+        private const int DEFAULT_ADDRESS_ID = 1;
+        private const int DEFAULT_SHIP_METHOD_ID = 1;
+        
         private readonly SalesOrderHeaderRepository _repository;
         private SalesOrderHeader? _currentOrder;
         private bool _isNewOrder;
@@ -261,9 +266,9 @@ namespace AdventureWorksApp.Forms
                     Status = (byte)(comboBoxStatus.SelectedIndex + 1),
                     Comment = string.IsNullOrWhiteSpace(textBoxComment.Text) ? null : textBoxComment.Text,
                     // Per un nuovo ordine, dobbiamo impostare valori di default per campi obbligatori
-                    BillToAddressID = 1, // Valore di default - in produzione andrebbe selezionato
-                    ShipToAddressID = 1,
-                    ShipMethodID = 1,
+                    BillToAddressID = DEFAULT_ADDRESS_ID,
+                    ShipToAddressID = DEFAULT_ADDRESS_ID,
+                    ShipMethodID = DEFAULT_SHIP_METHOD_ID,
                     SubTotal = 0,
                     TaxAmt = 0,
                     Freight = 0
