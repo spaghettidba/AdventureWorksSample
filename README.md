@@ -1,39 +1,39 @@
-# AdventureWorks Sample - Applicazione Didattica C# Windows Forms
+# AdventureWorks Sample - C# Windows Forms Teaching Application
 
-## Descrizione
+## Description
 
-Applicazione Windows Forms .NET 8.0 per la gestione del database AdventureWorks.
-Questo progetto è pensato a scopo didattico per un corso di programmazione C#.
+Windows Forms .NET 8.0 application for managing the AdventureWorks database.
+This project is designed for teaching purposes in a C# programming course.
 
-**Caratteristiche principali:**
-- Utilizzo di **Dapper** come micro-ORM (niente Entity Framework)
-- Architettura pulita con separazione tra UI e accesso ai dati
-- Codice ampiamente commentato per facilitare l'apprendimento
-- Tre form CRUD per le tabelle principali
+**Main features:**
+- Uses **Dapper** as micro-ORM (no Entity Framework)
+- Clean architecture with separation between UI and data access
+- Extensively commented code to facilitate learning
+- Three CRUD forms for main tables
 
-## Tabelle Gestite
+## Managed Tables
 
-1. **Production.Product** - Gestione anagrafica prodotti
-2. **Sales.SalesOrderHeader** - Gestione ordini di vendita
-3. **Sales.SalesOrderDetail** - Gestione righe ordine
+1. **Production.Product** - Product master data management
+2. **Sales.SalesOrderHeader** - Sales order management
+3. **Sales.SalesOrderDetail** - Order line management
 
-## Requisiti
+## Requirements
 
 - .NET 8.0 SDK
-- SQL Server con database AdventureWorks installato
-- Visual Studio 2022 o VS Code (opzionale)
+- SQL Server with AdventureWorks database installed
+- Visual Studio 2022 or VS Code (optional)
 
-## Come Eseguire
+## How to Run
 
-### 1. Clona il repository
+### 1. Clone the repository
 ```bash
 git clone https://github.com/spaghettidba/AdventureWorksSample.git
 cd AdventureWorksSample/AdventureWorksApp
 ```
 
-### 2. Configura la connessione al database
+### 2. Configure the database connection
 
-Modifica il file `appsettings.json` con la tua stringa di connessione:
+Edit the `appsettings.json` file with your connection string:
 
 ```json
 {
@@ -43,52 +43,52 @@ Modifica il file `appsettings.json` con la tua stringa di connessione:
 }
 ```
 
-**Oppure** inserisci la stringa di connessione direttamente nell'applicazione al primo avvio.
+**Or** enter the connection string directly in the application at first startup.
 
-### 3. Compila ed esegui
+### 3. Build and run
 ```bash
 dotnet restore
 dotnet build
 dotnet run
 ```
 
-## Struttura del Progetto
+## Project Structure
 
 ```
 AdventureWorksApp/
-├── appsettings.json          # Configurazione
-├── Program.cs                # Punto di ingresso
-├── Models/                   # Classi modello (POCO)
+├── appsettings.json          # Configuration
+├── Program.cs                # Entry point
+├── Models/                   # Model classes (POCO)
 │   ├── Product.cs
 │   ├── SalesOrderHeader.cs
 │   └── SalesOrderDetail.cs
-├── DataAccess/              # Layer accesso dati
+├── DataAccess/              # Data access layer
 │   ├── DbConnectionFactory.cs
 │   ├── ProductRepository.cs
 │   ├── SalesOrderHeaderRepository.cs
 │   └── SalesOrderDetailRepository.cs
-└── Forms/                   # Form Windows Forms
+└── Forms/                   # Windows Forms
     ├── MainForm.cs/.Designer.cs
     ├── ProductForm.cs/.Designer.cs
     ├── SalesOrderHeaderForm.cs/.Designer.cs
     └── SalesOrderDetailForm.cs/.Designer.cs
 ```
 
-## Pattern Utilizzati
+## Patterns Used
 
 ### Repository Pattern
-Ogni tabella ha un proprio repository che incapsula le operazioni CRUD:
-- `GetAllAsync()` - Legge tutti i record
-- `GetByIdAsync(id)` - Legge un singolo record
-- `InsertAsync(entity)` - Inserisce un nuovo record
-- `UpdateAsync(entity)` - Aggiorna un record esistente
-- `DeleteAsync(id)` - Elimina un record
+Each table has its own repository that encapsulates CRUD operations:
+- `GetAllAsync()` - Reads all records
+- `GetByIdAsync(id)` - Reads a single record
+- `InsertAsync(entity)` - Inserts a new record
+- `UpdateAsync(entity)` - Updates an existing record
+- `DeleteAsync(id)` - Deletes a record
 
 ### Dapper
-Dapper è un micro-ORM che estende `IDbConnection` con metodi di mapping:
+Dapper is a micro-ORM that extends `IDbConnection` with mapping methods:
 
 ```csharp
-// Esempio di query con Dapper
+// Example query with Dapper
 using var connection = DbConnectionFactory.CreateConnection();
 var products = await connection.QueryAsync<Product>(
     "SELECT * FROM Production.Product WHERE Name LIKE @Name",
@@ -96,16 +96,16 @@ var products = await connection.QueryAsync<Product>(
 );
 ```
 
-## Note Didattiche
+## Teaching Notes
 
-1. **Separazione delle responsabilità**: UI e logica dati sono separate
-2. **Async/Await**: Tutte le operazioni DB sono asincrone per non bloccare l'UI
-3. **Query parametrizzate**: Prevengono SQL injection
-4. **Commenti**: Il codice è ampiamente commentato in italiano
+1. **Separation of concerns**: UI and data logic are separated
+2. **Async/Await**: All DB operations are asynchronous to avoid blocking the UI
+3. **Parameterized queries**: Prevent SQL injection
+4. **Comments**: The code is extensively commented
 
-## Esempi di Stringhe di Connessione
+## Connection String Examples
 
-**Autenticazione Windows (consigliata):**
+**Windows Authentication (recommended):**
 ```
 Server=localhost;Database=AdventureWorks2019;Integrated Security=True;TrustServerCertificate=True
 ```
@@ -115,11 +115,11 @@ Server=localhost;Database=AdventureWorks2019;Integrated Security=True;TrustServe
 Server=localhost\SQLEXPRESS;Database=AdventureWorks2019;Integrated Security=True;TrustServerCertificate=True
 ```
 
-**Autenticazione SQL:**
+**SQL Authentication:**
 ```
 Server=localhost;Database=AdventureWorks2019;User Id=sa;Password=YourPassword;TrustServerCertificate=True
 ```
 
-## Licenza
+## License
 
-Questo progetto è rilasciato a scopo didattico.
+This project is released for teaching purposes.

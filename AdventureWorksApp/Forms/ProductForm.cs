@@ -1,16 +1,16 @@
 /*
  * ============================================================================
- * FORM: ProductForm (Logica)
+ * FORM: ProductForm (Logic)
  * ============================================================================
  * 
- * Form per la gestione dei prodotti dalla tabella Production.Product.
- * Implementa le operazioni CRUD complete con interfaccia user-friendly.
+ * Form for managing products from the Production.Product table.
+ * Implements complete CRUD operations with a user-friendly interface.
  * 
- * NOTA DIDATTICA:
- * - Separazione tra UI e accesso ai dati tramite Repository
- * - Uso di async/await per operazioni non bloccanti
- * - Validazione dati prima del salvataggio
- * - Gestione degli stati (visualizzazione/modifica/nuovo)
+ * TEACHING NOTE:
+ * - Separation between UI and data access via Repository
+ * - Use of async/await for non-blocking operations
+ * - Data validation before saving
+ * - State management (view/edit/new)
  * ============================================================================
  */
 
@@ -20,35 +20,35 @@ using AdventureWorksApp.Models;
 namespace AdventureWorksApp.Forms
 {
     /// <summary>
-    /// Form per la gestione CRUD della tabella Production.Product.
+    /// Form for CRUD management of the Production.Product table.
     /// </summary>
     public partial class ProductForm : Form
     {
-        // Costanti per valori di default dei prodotti
-        // NOTA DIDATTICA: Questi valori rappresentano livelli di stock standard
+        // Constants for default product values
+        // TEACHING NOTE: These values represent standard stock levels
         private const short DEFAULT_SAFETY_STOCK_LEVEL = 100;
         private const short DEFAULT_REORDER_POINT = 75;
         
-        // Repository per l'accesso ai dati
+        // Repository for data access
         private readonly ProductRepository _repository;
         
-        // Prodotto attualmente selezionato/in modifica
+        // Currently selected/editing product
         private Product? _currentProduct;
         
-        // Flag per indicare se stiamo inserendo un nuovo prodotto
+        // Flag to indicate if we are inserting a new product
         private bool _isNewProduct;
 
         /// <summary>
-        /// Costruttore del form.
+        /// Form constructor.
         /// </summary>
         public ProductForm()
         {
             InitializeComponent();
             
-            // Inizializza il repository
+            // Initialize the repository
             _repository = new ProductRepository();
             
-            // Collega gli event handler
+            // Connect event handlers
             this.Load += ProductForm_Load;
             this.dataGridViewProducts.SelectionChanged += DataGridView_SelectionChanged;
             this.buttonSearch.Click += ButtonSearch_Click;
@@ -58,7 +58,7 @@ namespace AdventureWorksApp.Forms
             this.buttonDelete.Click += ButtonDelete_Click;
             this.buttonCancel.Click += ButtonCancel_Click;
             
-            // Permetti ricerca con Enter
+            // Allow search with Enter
             this.textBoxSearch.KeyPress += (s, e) =>
             {
                 if (e.KeyChar == (char)Keys.Enter)
@@ -70,7 +70,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Caricamento iniziale del form.
+        /// Initial form loading.
         /// </summary>
         private async void ProductForm_Load(object? sender, EventArgs e)
         {
@@ -79,44 +79,44 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Carica tutti i prodotti nella griglia.
+        /// Loads all products into the grid.
         /// 
-        /// NOTA DIDATTICA:
-        /// - DataSource permette di collegare direttamente una collection
-        /// - ToList() materializza la query per il binding
+        /// TEACHING NOTE:
+        /// - DataSource allows directly binding a collection
+        /// - ToList() materializes the query for binding
         /// </summary>
         private async Task LoadProductsAsync()
         {
             try
             {
-                UpdateStatus("Caricamento prodotti...", Color.Blue);
+                UpdateStatus("Loading products...", Color.Blue);
                 
                 var products = await _repository.GetAllAsync();
                 
-                // Usiamo BindingSource per un binding più flessibile
+                // We use BindingSource for more flexible binding
                 dataGridViewProducts.DataSource = products.ToList();
                 
-                // Nascondiamo le colonne non necessarie per la visualizzazione
+                // Hide columns not needed for display
                 ConfigureGridColumns();
                 
-                UpdateStatus($"Caricati {products.Count()} prodotti", Color.Green);
+                UpdateStatus($"Loaded {products.Count()} products", Color.Green);
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
-                MessageBox.Show($"Errore nel caricamento dei prodotti:\n{ex.Message}",
-                    "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
+                MessageBox.Show($"Error nel caricamento dei products:\n{ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Configura le colonne della griglia per una migliore visualizzazione.
+        /// Configures grid columns for better display.
         /// </summary>
         private void ConfigureGridColumns()
         {
             if (dataGridViewProducts.Columns.Count == 0) return;
 
-            // Nascondi colonne tecniche
+            // Hide technical columns
             var hiddenColumns = new[] { "rowguid", "ModifiedDate", "SizeUnitMeasureCode", 
                 "WeightUnitMeasureCode", "ProductSubcategoryID", "ProductModelID",
                 "DiscontinuedDate", "DaysToManufacture", "ProductLine", "Class", "Style" };
@@ -127,7 +127,7 @@ namespace AdventureWorksApp.Forms
                     dataGridViewProducts.Columns[colName].Visible = false;
             }
 
-            // Rinomina colonne per l'utente
+            // Rename columns for the user
             SetColumnHeader("ProductID", "ID");
             SetColumnHeader("Name", "Nome");
             SetColumnHeader("ProductNumber", "Numero");
@@ -151,12 +151,12 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Gestisce la selezione di una riga nella griglia.
-        /// Popola i campi dettaglio con i dati del prodotto selezionato.
+        /// Handles row selection in the grid.
+        /// Populates detail fields with the selected product data.
         /// </summary>
         private void DataGridView_SelectionChanged(object? sender, EventArgs e)
         {
-            if (_isNewProduct) return; // Non interferire se stiamo inserendo
+            if (_isNewProduct) return; // Don't interfere if we're inserting
 
             if (dataGridViewProducts.SelectedRows.Count > 0)
             {
@@ -172,7 +172,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Popola i campi dettaglio con i dati del prodotto.
+        /// Populates detail fields with product data.
         /// </summary>
         private void PopulateDetails(Product product)
         {
@@ -190,7 +190,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Pulisce tutti i campi dettaglio.
+        /// Clears all detail fields.
         /// </summary>
         private void ClearDetails()
         {
@@ -208,7 +208,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Cerca prodotti per nome.
+        /// Searches products by name.
         /// </summary>
         private async void ButtonSearch_Click(object? sender, EventArgs e)
         {
@@ -216,7 +216,7 @@ namespace AdventureWorksApp.Forms
             
             try
             {
-                UpdateStatus("Ricerca in corso...", Color.Blue);
+                UpdateStatus("Searching...", Color.Blue);
                 
                 IEnumerable<Product> products;
                 if (string.IsNullOrEmpty(searchTerm))
@@ -231,16 +231,16 @@ namespace AdventureWorksApp.Forms
                 dataGridViewProducts.DataSource = products.ToList();
                 ConfigureGridColumns();
                 
-                UpdateStatus($"Trovati {products.Count()} prodotti", Color.Green);
+                UpdateStatus($"Found {products.Count()} products", Color.Green);
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
             }
         }
 
         /// <summary>
-        /// Aggiorna la lista dei prodotti.
+        /// Refreshes the product list.
         /// </summary>
         private async void ButtonRefresh_Click(object? sender, EventArgs e)
         {
@@ -249,7 +249,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Inizia l'inserimento di un nuovo prodotto.
+        /// Starts inserting a new product.
         /// </summary>
         private void ButtonNew_Click(object? sender, EventArgs e)
         {
@@ -268,23 +268,23 @@ namespace AdventureWorksApp.Forms
             SetNewMode();
             textBoxName.Focus();
             
-            UpdateStatus("Inserisci i dati del nuovo prodotto", Color.Blue);
+            UpdateStatus("Enter data for the new product", Color.Blue);
         }
 
         /// <summary>
-        /// Salva il prodotto (nuovo o modificato).
+        /// Saves the product (new or modified).
         /// 
-        /// NOTA DIDATTICA:
-        /// - Prima validiamo i dati
-        /// - Poi costruiamo l'oggetto Product
-        /// - Infine chiamiamo il repository appropriato (Insert o Update)
+        /// TEACHING NOTE:
+        /// - First we validate the data
+        /// - Then we build the Product object
+        /// - Finally we call the appropriate repository (Insert or Update)
         /// </summary>
         private async void ButtonSave_Click(object? sender, EventArgs e)
         {
-            // Validazione
+            // Validation
             if (string.IsNullOrWhiteSpace(textBoxName.Text))
             {
-                MessageBox.Show("Il nome del prodotto è obbligatorio.", "Validazione",
+                MessageBox.Show("Product name is required.", "Validation",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxName.Focus();
                 return;
@@ -292,7 +292,7 @@ namespace AdventureWorksApp.Forms
 
             if (string.IsNullOrWhiteSpace(textBoxProductNumber.Text))
             {
-                MessageBox.Show("Il numero prodotto è obbligatorio.", "Validazione",
+                MessageBox.Show("Product number is required.", "Validation",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxProductNumber.Focus();
                 return;
@@ -300,7 +300,7 @@ namespace AdventureWorksApp.Forms
 
             try
             {
-                // Costruisci l'oggetto Product dai campi UI
+                // Build the Product object from UI fields
                 var product = new Product
                 {
                     Name = textBoxName.Text.Trim(),
@@ -317,51 +317,51 @@ namespace AdventureWorksApp.Forms
 
                 if (_isNewProduct)
                 {
-                    // Inserimento nuovo prodotto
-                    UpdateStatus("Inserimento in corso...", Color.Blue);
+                    // Inserting new product
+                    UpdateStatus("Inserting...", Color.Blue);
                     int newId = await _repository.InsertAsync(product);
-                    UpdateStatus($"Prodotto inserito con ID: {newId}", Color.Green);
-                    MessageBox.Show($"Prodotto inserito con successo!\nID: {newId}",
-                        "Successo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    UpdateStatus($"Product inserted with ID: {newId}", Color.Green);
+                    MessageBox.Show($"Product inserted successfully!\nID: {newId}",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (_currentProduct != null)
                 {
-                    // Modifica prodotto esistente
+                    // Modifying existing product
                     product.ProductID = _currentProduct.ProductID;
-                    UpdateStatus("Salvataggio in corso...", Color.Blue);
+                    UpdateStatus("Saving...", Color.Blue);
                     await _repository.UpdateAsync(product);
-                    UpdateStatus("Prodotto aggiornato con successo", Color.Green);
+                    UpdateStatus("Product updated successfully", Color.Green);
                 }
 
-                // Ricarica la lista e torna in modalità visualizzazione
+                // Reload the list and return to view mode
                 _isNewProduct = false;
                 await LoadProductsAsync();
                 SetViewMode();
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
-                MessageBox.Show($"Errore durante il salvataggio:\n{ex.Message}",
-                    "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
+                MessageBox.Show($"Error during save:\n{ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Elimina il prodotto selezionato.
+        /// Deletes the selected product.
         /// </summary>
         private async void ButtonDelete_Click(object? sender, EventArgs e)
         {
             if (_currentProduct == null || _isNewProduct)
             {
-                MessageBox.Show("Seleziona un prodotto da eliminare.",
-                    "Attenzione", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Select a product to delete.",
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Conferma eliminazione
+            // Confirm deletion
             var result = MessageBox.Show(
-                $"Sei sicuro di voler eliminare il prodotto:\n\n{_currentProduct.Name}?",
-                "Conferma eliminazione",
+                $"Are you sure you want to delete the product:\n\n{_currentProduct.Name}?",
+                "Confirm deletion",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -369,22 +369,22 @@ namespace AdventureWorksApp.Forms
 
             try
             {
-                // Verifica se può essere eliminato
+                // Check if it can be deleted
                 bool canDelete = await _repository.CanDeleteAsync(_currentProduct.ProductID);
                 if (!canDelete)
                 {
                     MessageBox.Show(
-                        "Impossibile eliminare questo prodotto perché è referenziato in ordini esistenti.",
-                        "Eliminazione non consentita",
+                        "Cannot delete this product because it is referenced in existing orders.",
+                        "Deletion not allowed",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                UpdateStatus("Eliminazione in corso...", Color.Blue);
+                UpdateStatus("Deleting...", Color.Blue);
                 await _repository.DeleteAsync(_currentProduct.ProductID);
-                UpdateStatus("Prodotto eliminato", Color.Green);
+                UpdateStatus("Product deleted", Color.Green);
 
-                // Ricarica la lista
+                // Reload the list
                 _currentProduct = null;
                 ClearDetails();
                 await LoadProductsAsync();
@@ -392,14 +392,14 @@ namespace AdventureWorksApp.Forms
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
-                MessageBox.Show($"Errore durante l'eliminazione:\n{ex.Message}",
-                    "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
+                MessageBox.Show($"Error durante l'eliminazione:\n{ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Annulla l'operazione corrente.
+        /// Cancels the current operation.
         /// </summary>
         private async void ButtonCancel_Click(object? sender, EventArgs e)
         {
@@ -408,11 +408,11 @@ namespace AdventureWorksApp.Forms
             ClearDetails();
             await LoadProductsAsync();
             SetViewMode();
-            UpdateStatus("Operazione annullata", Color.Gray);
+            UpdateStatus("Operation cancelled", Color.Gray);
         }
 
         /// <summary>
-        /// Imposta la form in modalità visualizzazione.
+        /// Sets the form to view mode.
         /// </summary>
         private void SetViewMode()
         {
@@ -425,7 +425,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Imposta la form in modalità modifica.
+        /// Sets the form to edit mode.
         /// </summary>
         private void SetEditMode()
         {
@@ -438,7 +438,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Imposta la form in modalità nuovo inserimento.
+        /// Sets the form to new entry mode.
         /// </summary>
         private void SetNewMode()
         {
@@ -451,7 +451,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Abilita/disabilita i controlli di input.
+        /// Enables/disables input controls.
         /// </summary>
         private void SetControlsEnabled(bool enabled)
         {
@@ -468,7 +468,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Aggiorna il messaggio di stato.
+        /// Updates the status message.
         /// </summary>
         private void UpdateStatus(string message, Color color)
         {

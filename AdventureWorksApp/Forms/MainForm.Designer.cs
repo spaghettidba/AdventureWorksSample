@@ -3,14 +3,14 @@
  * FORM: MainForm (Designer)
  * ============================================================================
  * 
- * Questo file contiene il codice generato dal designer per il form principale.
+ * This file contains the designer-generated code for the main form.
  * 
- * NOTA DIDATTICA:
- * - In un progetto reale, questo codice viene generato automaticamente
- *   dall'editor visuale di Visual Studio
- * - Qui lo scriviamo manualmente per scopi didattici
- * - InitializeComponent() configura tutti i controlli del form
- * - I controlli sono dichiarati come campi privati della partial class
+ * TEACHING NOTE:
+ * - In a real project, this code is automatically generated
+ *   by the Visual Studio visual editor
+ * - Here we write it manually for teaching purposes
+ * - InitializeComponent() configures all form controls
+ * - Controls are declared as private fields of the partial class
  * ============================================================================
  */
 
@@ -39,12 +39,12 @@ namespace AdventureWorksApp.Forms
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Metodo richiesto per il supporto del designer.
-        /// Non modificare il contenuto con l'editor di codice.
+        /// Required method for designer support.
+        /// Do not modify the contents with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            // Creazione dei controlli
+            // Create controls
             this.groupBoxConnection = new GroupBox();
             this.labelConnectionStatus = new Label();
             this.buttonTestConnection = new Button();
@@ -57,13 +57,13 @@ namespace AdventureWorksApp.Forms
             this.labelWelcome = new Label();
             this.labelInstructions = new Label();
 
-            // Sospendi layout per performance
+            // Suspend layout for performance
             this.groupBoxConnection.SuspendLayout();
             this.groupBoxNavigation.SuspendLayout();
             this.SuspendLayout();
 
             // ============================================================================
-            // groupBoxConnection - Gruppo per la configurazione della connessione
+            // groupBoxConnection - Group for connection configuration
             // ============================================================================
             this.groupBoxConnection.Controls.Add(this.labelConnectionStatus);
             this.groupBoxConnection.Controls.Add(this.buttonTestConnection);
@@ -74,20 +74,20 @@ namespace AdventureWorksApp.Forms
             this.groupBoxConnection.Size = new Size(760, 120);
             this.groupBoxConnection.TabIndex = 0;
             this.groupBoxConnection.TabStop = false;
-            this.groupBoxConnection.Text = "Configurazione Connessione Database";
+            this.groupBoxConnection.Text = "Database Connection Configuration";
 
             // ============================================================================
-            // labelConnectionString - Etichetta per la textbox
+            // labelConnectionString - Label for the textbox
             // ============================================================================
             this.labelConnectionString.AutoSize = true;
             this.labelConnectionString.Location = new Point(15, 30);
             this.labelConnectionString.Name = "labelConnectionString";
             this.labelConnectionString.Size = new Size(130, 15);
             this.labelConnectionString.TabIndex = 0;
-            this.labelConnectionString.Text = "Stringa di connessione:";
+            this.labelConnectionString.Text = "Connection String:";
 
             // ============================================================================
-            // textBoxConnectionString - Campo per inserire la stringa di connessione
+            // textBoxConnectionString - Field to enter the connection string
             // ============================================================================
             this.textBoxConnectionString.Location = new Point(15, 50);
             this.textBoxConnectionString.Name = "textBoxConnectionString";
@@ -96,28 +96,28 @@ namespace AdventureWorksApp.Forms
             this.textBoxConnectionString.PlaceholderText = "Server=localhost;Database=AdventureWorks2019;Integrated Security=True;TrustServerCertificate=True";
 
             // ============================================================================
-            // buttonTestConnection - Pulsante per testare la connessione
+            // buttonTestConnection - Button to test the connection
             // ============================================================================
             this.buttonTestConnection.Location = new Point(655, 49);
             this.buttonTestConnection.Name = "buttonTestConnection";
             this.buttonTestConnection.Size = new Size(90, 25);
             this.buttonTestConnection.TabIndex = 2;
-            this.buttonTestConnection.Text = "Testa";
+            this.buttonTestConnection.Text = "Test";
             this.buttonTestConnection.UseVisualStyleBackColor = true;
 
             // ============================================================================
-            // labelConnectionStatus - Mostra lo stato della connessione
+            // labelConnectionStatus - Shows the connection status
             // ============================================================================
             this.labelConnectionStatus.AutoSize = true;
             this.labelConnectionStatus.Location = new Point(15, 85);
             this.labelConnectionStatus.Name = "labelConnectionStatus";
             this.labelConnectionStatus.Size = new Size(200, 15);
             this.labelConnectionStatus.TabIndex = 3;
-            this.labelConnectionStatus.Text = "Stato: Non connesso";
+            this.labelConnectionStatus.Text = "Status: Not connected";
             this.labelConnectionStatus.ForeColor = Color.Gray;
 
             // ============================================================================
-            // groupBoxNavigation - Gruppo per la navigazione tra le form
+            // groupBoxNavigation - Group for navigation between forms
             // ============================================================================
             this.groupBoxNavigation.Controls.Add(this.buttonProducts);
             this.groupBoxNavigation.Controls.Add(this.buttonSalesOrders);
@@ -127,53 +127,53 @@ namespace AdventureWorksApp.Forms
             this.groupBoxNavigation.Size = new Size(760, 180);
             this.groupBoxNavigation.TabIndex = 1;
             this.groupBoxNavigation.TabStop = false;
-            this.groupBoxNavigation.Text = "Gestione Dati";
+            this.groupBoxNavigation.Text = "Data Management";
 
             // ============================================================================
-            // buttonProducts - Apre la form di gestione prodotti
+            // buttonProducts - Opens the product management form
             // ============================================================================
             this.buttonProducts.Location = new Point(15, 35);
             this.buttonProducts.Name = "buttonProducts";
             this.buttonProducts.Size = new Size(230, 45);
             this.buttonProducts.TabIndex = 0;
-            this.buttonProducts.Text = "📦 Gestione Prodotti\n(Production.Product)";
+            this.buttonProducts.Text = "📦 Product Management\n(Production.Product)";
             this.buttonProducts.UseVisualStyleBackColor = true;
 
             // ============================================================================
-            // buttonSalesOrders - Apre la form di gestione ordini
+            // buttonSalesOrders - Opens the order management form
             // ============================================================================
             this.buttonSalesOrders.Location = new Point(265, 35);
             this.buttonSalesOrders.Name = "buttonSalesOrders";
             this.buttonSalesOrders.Size = new Size(230, 45);
             this.buttonSalesOrders.TabIndex = 1;
-            this.buttonSalesOrders.Text = "📋 Gestione Ordini\n(Sales.SalesOrderHeader)";
+            this.buttonSalesOrders.Text = "📋 Order Management\n(Sales.SalesOrderHeader)";
             this.buttonSalesOrders.UseVisualStyleBackColor = true;
 
             // ============================================================================
-            // buttonOrderDetails - Apre la form di gestione dettagli ordine
+            // buttonOrderDetails - Opens the order details management form
             // ============================================================================
             this.buttonOrderDetails.Location = new Point(515, 35);
             this.buttonOrderDetails.Name = "buttonOrderDetails";
             this.buttonOrderDetails.Size = new Size(230, 45);
             this.buttonOrderDetails.TabIndex = 2;
-            this.buttonOrderDetails.Text = "📝 Dettagli Ordini\n(Sales.SalesOrderDetail)";
+            this.buttonOrderDetails.Text = "📝 Order Details\n(Sales.SalesOrderDetail)";
             this.buttonOrderDetails.UseVisualStyleBackColor = true;
 
             // ============================================================================
-            // labelInstructions - Istruzioni per l'uso
+            // labelInstructions - Instructions for use
             // ============================================================================
             this.labelInstructions.Location = new Point(15, 100);
             this.labelInstructions.Name = "labelInstructions";
             this.labelInstructions.Size = new Size(730, 70);
             this.labelInstructions.TabIndex = 3;
-            this.labelInstructions.Text = @"ISTRUZIONI:
-1. Inserisci la stringa di connessione al database AdventureWorks e clicca 'Testa'
-2. Una volta connesso, usa i pulsanti sopra per gestire i dati delle varie tabelle
-3. Ogni form permette di visualizzare, inserire, modificare ed eliminare i record";
+            this.labelInstructions.Text = @"INSTRUCTIONS:
+1. Enter the AdventureWorks database connection string and click 'Test'
+2. Once connected, use the buttons above to manage data from various tables
+3. Each form allows you to view, insert, modify and delete records";
             this.labelInstructions.ForeColor = Color.DarkBlue;
 
             // ============================================================================
-            // labelWelcome - Titolo di benvenuto
+            // labelWelcome - Welcome title
             // ============================================================================
             this.labelWelcome.AutoSize = true;
             this.labelWelcome.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
@@ -181,11 +181,11 @@ namespace AdventureWorksApp.Forms
             this.labelWelcome.Name = "labelWelcome";
             this.labelWelcome.Size = new Size(500, 32);
             this.labelWelcome.TabIndex = 2;
-            this.labelWelcome.Text = "AdventureWorks - Applicazione Didattica";
+            this.labelWelcome.Text = "AdventureWorks - Teaching Application";
             this.labelWelcome.ForeColor = Color.DarkBlue;
 
             // ============================================================================
-            // MainForm - Form principale
+            // MainForm - Main form
             // ============================================================================
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
@@ -198,9 +198,9 @@ namespace AdventureWorksApp.Forms
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.Text = "AdventureWorks - Menu Principale";
+            this.Text = "AdventureWorks - Main Menu";
 
-            // Riprendi layout
+            // Resume layout
             this.groupBoxConnection.ResumeLayout(false);
             this.groupBoxConnection.PerformLayout();
             this.groupBoxNavigation.ResumeLayout(false);
@@ -210,7 +210,7 @@ namespace AdventureWorksApp.Forms
 
         #endregion
 
-        // Dichiarazione dei controlli
+        // Control declarations
         private GroupBox groupBoxConnection;
         private Label labelConnectionString;
         private TextBox textBoxConnectionString;

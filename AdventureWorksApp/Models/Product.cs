@@ -1,104 +1,104 @@
 /*
  * ============================================================================
- * MODELLO: Product
+ * MODEL: Product
  * ============================================================================
  * 
- * Questo modello rappresenta la tabella Production.Product del database 
- * AdventureWorks. Contiene le proprietà principali di un prodotto.
+ * This model represents the Production.Product table from the AdventureWorks
+ * database. It contains the main properties of a product.
  * 
- * NOTA DIDATTICA:
- * - Le proprietà corrispondono alle colonne della tabella nel database
- * - Usiamo nullable types (?) per le colonne che possono contenere NULL
- * - I nomi delle proprietà devono corrispondere ai nomi delle colonne per
- *   permettere a Dapper di mappare automaticamente i risultati
+ * TEACHING NOTE:
+ * - Properties correspond to columns in the database table
+ * - We use nullable types (?) for columns that can contain NULL
+ * - Property names must match column names to allow Dapper to
+ *   automatically map results
  * ============================================================================
  */
 
 namespace AdventureWorksApp.Models
 {
     /// <summary>
-    /// Rappresenta un prodotto dalla tabella Production.Product.
-    /// Questa classe viene usata per il mapping dei dati con Dapper.
+    /// Represents a product from the Production.Product table.
+    /// This class is used for data mapping with Dapper.
     /// </summary>
     public class Product
     {
-        // Chiave primaria della tabella
+        // Primary key of the table
         public int ProductID { get; set; }
 
-        // Nome del prodotto (richiesto)
+        // Product name (required)
         public string Name { get; set; } = string.Empty;
 
-        // Numero identificativo del prodotto
+        // Product identifier number
         public string ProductNumber { get; set; } = string.Empty;
 
-        // Indica se il prodotto può essere fabbricato internamente
+        // Indicates if the product can be manufactured internally
         public bool MakeFlag { get; set; }
 
-        // Indica se il prodotto è finito
+        // Indicates if the product is finished
         public bool FinishedGoodsFlag { get; set; }
 
-        // Colore del prodotto (può essere NULL)
+        // Product color (can be NULL)
         public string? Color { get; set; }
 
-        // Livello minimo di sicurezza dello stock
+        // Minimum safety stock level
         public short SafetyStockLevel { get; set; }
 
-        // Punto di riordino
+        // Reorder point
         public short ReorderPoint { get; set; }
 
-        // Costo standard del prodotto
+        // Standard cost of the product
         public decimal StandardCost { get; set; }
 
-        // Prezzo di listino (può essere NULL per prodotti non venduti)
+        // List price (can be NULL for products not sold)
         public decimal? ListPrice { get; set; }
 
-        // Taglia del prodotto (può essere NULL)
+        // Product size (can be NULL)
         public string? Size { get; set; }
 
-        // Unità di misura della taglia
+        // Size unit of measure
         public string? SizeUnitMeasureCode { get; set; }
 
-        // Unità di misura del peso
+        // Weight unit of measure
         public string? WeightUnitMeasureCode { get; set; }
 
-        // Peso del prodotto (può essere NULL)
+        // Product weight (can be NULL)
         public decimal? Weight { get; set; }
 
-        // Giorni necessari per la produzione
+        // Days required for manufacturing
         public int DaysToManufacture { get; set; }
 
-        // Linea di prodotto (R = Road, M = Mountain, T = Touring, S = Standard)
+        // Product line (R = Road, M = Mountain, T = Touring, S = Standard)
         public string? ProductLine { get; set; }
 
-        // Classe del prodotto (H = High, M = Medium, L = Low)
+        // Product class (H = High, M = Medium, L = Low)
         public string? Class { get; set; }
 
-        // Stile del prodotto (W = Women, M = Men, U = Universal)
+        // Product style (W = Women, M = Men, U = Universal)
         public string? Style { get; set; }
 
-        // Riferimento alla sottocategoria del prodotto
+        // Reference to product subcategory
         public int? ProductSubcategoryID { get; set; }
 
-        // Riferimento al modello del prodotto
+        // Reference to product model
         public int? ProductModelID { get; set; }
 
-        // Data di inizio vendita
+        // Sale start date
         public DateTime SellStartDate { get; set; }
 
-        // Data di fine vendita (NULL se ancora in vendita)
+        // Sale end date (NULL if still on sale)
         public DateTime? SellEndDate { get; set; }
 
-        // Data di discontinuazione (NULL se non discontinuato)
+        // Discontinuation date (NULL if not discontinued)
         public DateTime? DiscontinuedDate { get; set; }
 
-        // GUID di riga per tracking modifiche
+        // Row GUID for change tracking
         public Guid rowguid { get; set; }
 
-        // Data di modifica del record
+        // Record modification date
         public DateTime ModifiedDate { get; set; }
 
         /// <summary>
-        /// Override di ToString per visualizzazione user-friendly
+        /// Override of ToString for user-friendly display
         /// </summary>
         public override string ToString()
         {

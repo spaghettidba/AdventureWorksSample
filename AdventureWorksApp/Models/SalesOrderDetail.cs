@@ -1,90 +1,90 @@
 /*
  * ============================================================================
- * MODELLO: SalesOrderDetail
+ * MODEL: SalesOrderDetail
  * ============================================================================
  * 
- * Questo modello rappresenta la tabella Sales.SalesOrderDetail del database 
- * AdventureWorks. Contiene le righe di dettaglio di un ordine di vendita.
+ * This model represents the Sales.SalesOrderDetail table from the AdventureWorks
+ * database. It contains the detail lines of a sales order.
  * 
- * NOTA DIDATTICA:
- * - Questa tabella ha una chiave primaria composita (SalesOrderID, SalesOrderDetailID)
- * - Ha una relazione N:1 con SalesOrderHeader tramite SalesOrderID
- * - Ha una relazione N:1 con Product tramite ProductID
- * - Ogni riga rappresenta un prodotto ordinato con quantità e prezzo
+ * TEACHING NOTE:
+ * - This table has a composite primary key (SalesOrderID, SalesOrderDetailID)
+ * - It has a N:1 relationship with SalesOrderHeader via SalesOrderID
+ * - It has a N:1 relationship with Product via ProductID
+ * - Each row represents an ordered product with quantity and price
  * ============================================================================
  */
 
 namespace AdventureWorksApp.Models
 {
     /// <summary>
-    /// Rappresenta una riga di dettaglio di un ordine dalla tabella 
-    /// Sales.SalesOrderDetail. Contiene informazioni sul singolo prodotto 
-    /// ordinato: quantità, prezzo, sconto, ecc.
+    /// Represents an order detail line from the Sales.SalesOrderDetail table.
+    /// Contains information about the individual ordered product: quantity,
+    /// price, discount, etc.
     /// </summary>
     public class SalesOrderDetail
     {
-        // Parte della chiave primaria - riferimento all'ordine
+        // Part of the primary key - reference to the order
         public int SalesOrderID { get; set; }
 
-        // Parte della chiave primaria - identificativo progressivo della riga
+        // Part of the primary key - sequential line identifier
         public int SalesOrderDetailID { get; set; }
 
-        // Posizione della riga nel carrello (per ordini online)
+        // Carrier tracking number for the shipment
         public string? CarrierTrackingNumber { get; set; }
 
-        // Quantità ordinata
+        // Ordered quantity
         public short OrderQty { get; set; }
 
-        // ID del prodotto ordinato - chiave esterna verso Production.Product
+        // Ordered product ID - foreign key to Production.Product
         public int ProductID { get; set; }
 
-        // ID dell'offerta speciale applicata
+        // Applied special offer ID
         public int SpecialOfferID { get; set; }
 
-        // Prezzo unitario del prodotto
+        // Unit price of the product
         public decimal UnitPrice { get; set; }
 
-        // Percentuale di sconto applicata (0.00 - 1.00)
+        // Applied discount percentage (0.00 - 1.00)
         public decimal UnitPriceDiscount { get; set; }
 
-        // Totale della riga: (UnitPrice * OrderQty) - (UnitPrice * OrderQty * UnitPriceDiscount)
+        // Line total: (UnitPrice * OrderQty) - (UnitPrice * OrderQty * UnitPriceDiscount)
         public decimal LineTotal { get; set; }
 
-        // GUID di riga per tracking modifiche
+        // Row GUID for change tracking
         public Guid rowguid { get; set; }
 
-        // Data di modifica del record
+        // Record modification date
         public DateTime ModifiedDate { get; set; }
 
         // ============================================================================
-        // PROPRIETÀ DI NAVIGAZIONE (non nel database, popolate da query JOIN)
+        // NAVIGATION PROPERTIES (not in database, populated by JOIN queries)
         // ============================================================================
 
         /// <summary>
-        /// Nome del prodotto - popolato tramite JOIN con Production.Product
-        /// Questa proprietà viene usata per visualizzare informazioni del prodotto
-        /// senza dover fare query aggiuntive
+        /// Product name - populated via JOIN with Production.Product
+        /// This property is used to display product information without
+        /// needing additional queries
         /// </summary>
         public string? ProductName { get; set; }
 
         /// <summary>
-        /// Numero ordine - popolato tramite JOIN con Sales.SalesOrderHeader
+        /// Order number - populated via JOIN with Sales.SalesOrderHeader
         /// </summary>
         public string? SalesOrderNumber { get; set; }
 
         /// <summary>
-        /// Calcola il totale della riga in modo programmatico
-        /// Utile per verificare il valore del database
+        /// Calculates the line total programmatically
+        /// Useful for verifying the database value
         /// </summary>
         public decimal CalculatedLineTotal => 
             (UnitPrice * OrderQty) * (1 - UnitPriceDiscount);
 
         /// <summary>
-        /// Override di ToString per visualizzazione user-friendly
+        /// Override of ToString for user-friendly display
         /// </summary>
         public override string ToString()
         {
-            return $"Ordine {SalesOrderID}, Riga {SalesOrderDetailID}: {ProductName ?? $"Prodotto {ProductID}"} x {OrderQty} = {LineTotal:C}";
+            return $"Order {SalesOrderID}, Line {SalesOrderDetailID}: {ProductName ?? $"Product {ProductID}"} x {OrderQty} = {LineTotal:C}";
         }
     }
 }

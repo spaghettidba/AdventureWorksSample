@@ -3,14 +3,14 @@
  * FORM: SalesOrderDetailForm (Designer)
  * ============================================================================
  * 
- * Form per la gestione dei dettagli ordine dalla tabella Sales.SalesOrderDetail.
- * Può essere aperta in due modalità:
- * 1. Vista generale di tutti i dettagli (con filtro per ordine)
- * 2. Vista specifica per un ordine (passato dal costruttore)
+ * Form for managing order details from the Sales.SalesOrderDetail table.
+ * Can be opened in two modes:
+ * 1. General view of all details (with order filter)
+ * 2. Specific view for an order (passed from constructor)
  * 
- * NOTA DIDATTICA:
- * - Questa form mostra le relazioni tra tabelle
- * - Ogni dettaglio è legato a un ordine (SalesOrderID) e un prodotto (ProductID)
+ * TEACHING NOTE:
+ * - This form shows relationships between tables
+ * - Each detail is linked to an order (SalesOrderID) and a product (ProductID)
  * ============================================================================
  */
 
@@ -33,7 +33,7 @@ namespace AdventureWorksApp.Forms
 
         private void InitializeComponent()
         {
-            // Controlli principali
+            // Main controls
             this.splitContainer = new SplitContainer();
             this.dataGridViewDetails = new DataGridView();
             this.panelFilter = new Panel();
@@ -43,7 +43,7 @@ namespace AdventureWorksApp.Forms
             this.buttonShowAll = new Button();
             this.labelOrderInfo = new Label();
 
-            // Pannello dettagli
+            // Details panel
             this.groupBoxDetails = new GroupBox();
             this.labelOrderID = new Label();
             this.textBoxOrderID = new TextBox();
@@ -66,7 +66,7 @@ namespace AdventureWorksApp.Forms
             this.labelCarrierTracking = new Label();
             this.textBoxCarrierTracking = new TextBox();
 
-            // Pulsanti azione
+            // Action buttons
             this.panelActions = new Panel();
             this.buttonNew = new Button();
             this.buttonSave = new Button();
@@ -74,7 +74,7 @@ namespace AdventureWorksApp.Forms
             this.buttonCancel = new Button();
             this.labelStatusBar = new Label();
 
-            // Sospendi layout
+            // Suspend layout
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -104,7 +104,7 @@ namespace AdventureWorksApp.Forms
             this.panelFilter.Height = 50;
             this.panelFilter.Padding = new Padding(5);
 
-            this.labelFilterOrder.Text = "Filtra per ID Ordine:";
+            this.labelFilterOrder.Text = "Filter by Order ID:";
             this.labelFilterOrder.Location = new Point(10, 15);
             this.labelFilterOrder.AutoSize = true;
 
@@ -113,11 +113,11 @@ namespace AdventureWorksApp.Forms
 
             this.buttonFilter.Location = new Point(240, 11);
             this.buttonFilter.Size = new Size(80, 25);
-            this.buttonFilter.Text = "🔍 Filtra";
+            this.buttonFilter.Text = "🔍 Filter";
 
             this.buttonShowAll.Location = new Point(330, 11);
             this.buttonShowAll.Size = new Size(100, 25);
-            this.buttonShowAll.Text = "📋 Mostra Tutti";
+            this.buttonShowAll.Text = "📋 Show All";
 
             this.labelOrderInfo.Location = new Point(450, 15);
             this.labelOrderInfo.Size = new Size(450, 20);
@@ -148,12 +148,12 @@ namespace AdventureWorksApp.Forms
             // groupBoxDetails
             // ============================================================================
             this.groupBoxDetails.Dock = DockStyle.Fill;
-            this.groupBoxDetails.Text = "Dettaglio Riga Ordine";
+            this.groupBoxDetails.Text = "Order Line Detail";
             this.groupBoxDetails.Padding = new Padding(10);
 
-            // Riga 1: ID Ordine e Dettaglio
+            // Row 1: Order ID and Detail
             int y = 25;
-            this.labelOrderID.Text = "ID Ordine:";
+            this.labelOrderID.Text = "Order ID:";
             this.labelOrderID.Location = new Point(15, y);
             this.labelOrderID.AutoSize = true;
             this.textBoxOrderID.Location = new Point(100, y - 3);
@@ -161,7 +161,7 @@ namespace AdventureWorksApp.Forms
             this.textBoxOrderID.ReadOnly = true;
             this.textBoxOrderID.BackColor = Color.LightGray;
 
-            this.labelDetailID.Text = "ID Riga:";
+            this.labelDetailID.Text = "Line ID:";
             this.labelDetailID.Location = new Point(200, y);
             this.labelDetailID.AutoSize = true;
             this.textBoxDetailID.Location = new Point(260, y - 3);
@@ -169,7 +169,7 @@ namespace AdventureWorksApp.Forms
             this.textBoxDetailID.ReadOnly = true;
             this.textBoxDetailID.BackColor = Color.LightGray;
 
-            this.labelOrderNumber.Text = "Numero Ordine:";
+            this.labelOrderNumber.Text = "Order Number:";
             this.labelOrderNumber.Location = new Point(360, y);
             this.labelOrderNumber.AutoSize = true;
             this.textBoxOrderNumber.Location = new Point(465, y - 3);
@@ -177,16 +177,16 @@ namespace AdventureWorksApp.Forms
             this.textBoxOrderNumber.ReadOnly = true;
             this.textBoxOrderNumber.BackColor = Color.LightGray;
 
-            // Riga 2: Prodotto
+            // Row 2: Product
             y = 60;
-            this.labelProductID.Text = "Prodotto:";
+            this.labelProductID.Text = "Product:";
             this.labelProductID.Location = new Point(15, y);
             this.labelProductID.AutoSize = true;
             this.comboBoxProduct.Location = new Point(100, y - 3);
             this.comboBoxProduct.Size = new Size(350, 23);
             this.comboBoxProduct.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            this.labelProductName.Text = "Nome:";
+            this.labelProductName.Text = "Name:";
             this.labelProductName.Location = new Point(470, y);
             this.labelProductName.AutoSize = true;
             this.textBoxProductName.Location = new Point(520, y - 3);
@@ -194,9 +194,9 @@ namespace AdventureWorksApp.Forms
             this.textBoxProductName.ReadOnly = true;
             this.textBoxProductName.BackColor = Color.LightYellow;
 
-            // Riga 3: Quantità e prezzo
+            // Row 3: Quantity and price
             y = 100;
-            this.labelOrderQty.Text = "Quantità:";
+            this.labelOrderQty.Text = "Quantity:";
             this.labelOrderQty.Location = new Point(15, y);
             this.labelOrderQty.AutoSize = true;
             this.numericUpDownQty.Location = new Point(100, y - 3);
@@ -204,7 +204,7 @@ namespace AdventureWorksApp.Forms
             this.numericUpDownQty.Minimum = 1;
             this.numericUpDownQty.Maximum = 9999;
 
-            this.labelUnitPrice.Text = "Prezzo Unitario:";
+            this.labelUnitPrice.Text = "Unit Price:";
             this.labelUnitPrice.Location = new Point(200, y);
             this.labelUnitPrice.AutoSize = true;
             this.textBoxUnitPrice.Location = new Point(305, y - 3);
@@ -212,13 +212,13 @@ namespace AdventureWorksApp.Forms
             this.textBoxUnitPrice.ReadOnly = true;
             this.textBoxUnitPrice.BackColor = Color.LightYellow;
 
-            this.labelDiscount.Text = "Sconto %:";
+            this.labelDiscount.Text = "Discount %:";
             this.labelDiscount.Location = new Point(420, y);
             this.labelDiscount.AutoSize = true;
             this.textBoxDiscount.Location = new Point(490, y - 3);
             this.textBoxDiscount.Size = new Size(60, 23);
 
-            this.labelLineTotal.Text = "Totale Riga:";
+            this.labelLineTotal.Text = "Line Total:";
             this.labelLineTotal.Location = new Point(570, y);
             this.labelLineTotal.AutoSize = true;
             this.labelLineTotal.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -228,15 +228,15 @@ namespace AdventureWorksApp.Forms
             this.textBoxLineTotal.BackColor = Color.LightGreen;
             this.textBoxLineTotal.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
 
-            // Riga 4: Tracking
+            // Row 4: Tracking
             y = 140;
-            this.labelCarrierTracking.Text = "Tracking Spedizione:";
+            this.labelCarrierTracking.Text = "Shipping Tracking:";
             this.labelCarrierTracking.Location = new Point(15, y);
             this.labelCarrierTracking.AutoSize = true;
             this.textBoxCarrierTracking.Location = new Point(140, y - 3);
             this.textBoxCarrierTracking.Size = new Size(200, 23);
 
-            // Aggiungi controlli
+            // Add controls
             this.groupBoxDetails.Controls.AddRange(new Control[] {
                 this.labelOrderID, this.textBoxOrderID,
                 this.labelDetailID, this.textBoxDetailID,
@@ -258,19 +258,19 @@ namespace AdventureWorksApp.Forms
 
             this.buttonNew.Location = new Point(10, 12);
             this.buttonNew.Size = new Size(100, 28);
-            this.buttonNew.Text = "➕ Nuovo";
+            this.buttonNew.Text = "➕ New";
 
             this.buttonSave.Location = new Point(120, 12);
             this.buttonSave.Size = new Size(100, 28);
-            this.buttonSave.Text = "💾 Salva";
+            this.buttonSave.Text = "💾 Save";
 
             this.buttonDelete.Location = new Point(230, 12);
             this.buttonDelete.Size = new Size(100, 28);
-            this.buttonDelete.Text = "🗑️ Elimina";
+            this.buttonDelete.Text = "🗑️ Delete";
 
             this.buttonCancel.Location = new Point(340, 12);
             this.buttonCancel.Size = new Size(100, 28);
-            this.buttonCancel.Text = "❌ Annulla";
+            this.buttonCancel.Text = "❌ Cancel";
 
             this.labelStatusBar.Location = new Point(460, 17);
             this.labelStatusBar.Size = new Size(450, 20);
@@ -289,10 +289,10 @@ namespace AdventureWorksApp.Forms
             this.ClientSize = new Size(950, 650);
             this.Controls.Add(this.splitContainer);
             this.Name = "SalesOrderDetailForm";
-            this.Text = "Dettagli Ordine - Sales.SalesOrderDetail";
+            this.Text = "Order Details - Sales.SalesOrderDetail";
             this.StartPosition = FormStartPosition.CenterParent;
 
-            // Riprendi layout
+            // Resume layout
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
@@ -309,7 +309,7 @@ namespace AdventureWorksApp.Forms
 
         #endregion
 
-        // Controlli principali
+        // Main controls
         private SplitContainer splitContainer;
         private DataGridView dataGridViewDetails;
         private Panel panelFilter;
@@ -319,7 +319,7 @@ namespace AdventureWorksApp.Forms
         private Button buttonShowAll;
         private Label labelOrderInfo;
 
-        // Controlli dettagli
+        // Detail controls
         private GroupBox groupBoxDetails;
         private Label labelOrderID;
         private TextBox textBoxOrderID;
@@ -342,7 +342,7 @@ namespace AdventureWorksApp.Forms
         private Label labelCarrierTracking;
         private TextBox textBoxCarrierTracking;
 
-        // Pulsanti azione
+        // Action buttons
         private Panel panelActions;
         private Button buttonNew;
         private Button buttonSave;

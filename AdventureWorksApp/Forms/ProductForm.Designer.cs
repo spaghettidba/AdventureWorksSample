@@ -3,13 +3,13 @@
  * FORM: ProductForm (Designer)
  * ============================================================================
  * 
- * Form per la gestione dei prodotti dalla tabella Production.Product.
- * Contiene una DataGridView per visualizzare i prodotti e controlli per
- * la modifica/inserimento/cancellazione.
+ * Form for managing products from the Production.Product table.
+ * Contains a DataGridView to display products and controls for
+ * modification/insertion/deletion.
  * 
- * NOTA DIDATTICA:
- * - La UI è divisa in tre sezioni: griglia dati, dettagli e pulsanti azione
- * - Usiamo SplitContainer per dividere la visualizzazione
+ * TEACHING NOTE:
+ * - The UI is divided into three sections: data grid, details and action buttons
+ * - We use SplitContainer to divide the display
  * ============================================================================
  */
 
@@ -32,7 +32,7 @@ namespace AdventureWorksApp.Forms
 
         private void InitializeComponent()
         {
-            // Creazione controlli principali
+            // Create main controls
             this.splitContainer = new SplitContainer();
             this.dataGridViewProducts = new DataGridView();
             this.panelSearch = new Panel();
@@ -40,7 +40,7 @@ namespace AdventureWorksApp.Forms
             this.buttonSearch = new Button();
             this.buttonRefresh = new Button();
 
-            // Creazione pannello dettagli
+            // Create details panel
             this.groupBoxDetails = new GroupBox();
             this.labelProductID = new Label();
             this.textBoxProductID = new TextBox();
@@ -63,7 +63,7 @@ namespace AdventureWorksApp.Forms
             this.labelSellStartDate = new Label();
             this.dateTimePickerSellStart = new DateTimePicker();
 
-            // Pulsanti azione
+            // Action buttons
             this.panelActions = new Panel();
             this.buttonNew = new Button();
             this.buttonSave = new Button();
@@ -71,7 +71,7 @@ namespace AdventureWorksApp.Forms
             this.buttonCancel = new Button();
             this.labelStatus = new Label();
 
-            // Sospendi layout
+            // Suspend layout
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -83,7 +83,7 @@ namespace AdventureWorksApp.Forms
             this.SuspendLayout();
 
             // ============================================================================
-            // splitContainer - Divide la form in griglia e dettagli
+            // splitContainer - Divides the form into grid and details
             // ============================================================================
             this.splitContainer.Dock = DockStyle.Fill;
             this.splitContainer.Location = new Point(0, 0);
@@ -94,13 +94,13 @@ namespace AdventureWorksApp.Forms
             this.splitContainer.TabIndex = 0;
 
             // ============================================================================
-            // Panel1 - Contiene la griglia e la ricerca
+            // Panel1 - Contains the grid and search
             // ============================================================================
             this.splitContainer.Panel1.Controls.Add(this.dataGridViewProducts);
             this.splitContainer.Panel1.Controls.Add(this.panelSearch);
 
             // ============================================================================
-            // panelSearch - Barra di ricerca
+            // panelSearch - Search bar
             // ============================================================================
             this.panelSearch.Controls.Add(this.textBoxSearch);
             this.panelSearch.Controls.Add(this.buttonSearch);
@@ -111,18 +111,18 @@ namespace AdventureWorksApp.Forms
 
             this.textBoxSearch.Location = new Point(10, 8);
             this.textBoxSearch.Size = new Size(300, 23);
-            this.textBoxSearch.PlaceholderText = "Cerca per nome prodotto...";
+            this.textBoxSearch.PlaceholderText = "Search by product name...";
 
             this.buttonSearch.Location = new Point(320, 7);
             this.buttonSearch.Size = new Size(80, 25);
-            this.buttonSearch.Text = "🔍 Cerca";
+            this.buttonSearch.Text = "🔍 Search";
 
             this.buttonRefresh.Location = new Point(410, 7);
             this.buttonRefresh.Size = new Size(100, 25);
-            this.buttonRefresh.Text = "🔄 Aggiorna";
+            this.buttonRefresh.Text = "🔄 Refresh";
 
             // ============================================================================
-            // dataGridViewProducts - Griglia per visualizzare i prodotti
+            // dataGridViewProducts - Grid to display products
             // ============================================================================
             this.dataGridViewProducts.AllowUserToAddRows = false;
             this.dataGridViewProducts.AllowUserToDeleteRows = false;
@@ -136,19 +136,19 @@ namespace AdventureWorksApp.Forms
             this.dataGridViewProducts.TabIndex = 0;
 
             // ============================================================================
-            // Panel2 - Contiene dettagli e azioni
+            // Panel2 - Contains details and actions
             // ============================================================================
             this.splitContainer.Panel2.Controls.Add(this.groupBoxDetails);
             this.splitContainer.Panel2.Controls.Add(this.panelActions);
 
             // ============================================================================
-            // groupBoxDetails - Pannello dettagli prodotto
+            // groupBoxDetails - Product details panel
             // ============================================================================
             this.groupBoxDetails.Dock = DockStyle.Fill;
-            this.groupBoxDetails.Text = "Dettagli Prodotto";
+            this.groupBoxDetails.Text = "Product Details";
             this.groupBoxDetails.Padding = new Padding(10);
 
-            // Riga 1: ID e Nome
+            // Row 1: ID and Name
             int y = 25;
             this.labelProductID.Text = "ID:";
             this.labelProductID.Location = new Point(15, y);
@@ -158,70 +158,70 @@ namespace AdventureWorksApp.Forms
             this.textBoxProductID.ReadOnly = true;
             this.textBoxProductID.BackColor = Color.LightGray;
 
-            this.labelName.Text = "Nome:";
+            this.labelName.Text = "Name:";
             this.labelName.Location = new Point(220, y);
             this.labelName.AutoSize = true;
             this.textBoxName.Location = new Point(280, y - 3);
             this.textBoxName.Size = new Size(250, 23);
 
-            this.labelProductNumber.Text = "Numero:";
+            this.labelProductNumber.Text = "Number:";
             this.labelProductNumber.Location = new Point(550, y);
             this.labelProductNumber.AutoSize = true;
             this.textBoxProductNumber.Location = new Point(620, y - 3);
             this.textBoxProductNumber.Size = new Size(150, 23);
 
-            // Riga 2: Colore, Prezzo, Costo
+            // Row 2: Color, Price, Cost
             y = 55;
-            this.labelColor.Text = "Colore:";
+            this.labelColor.Text = "Color:";
             this.labelColor.Location = new Point(15, y);
             this.labelColor.AutoSize = true;
             this.textBoxColor.Location = new Point(120, y - 3);
             this.textBoxColor.Size = new Size(100, 23);
 
-            this.labelListPrice.Text = "Prezzo:";
+            this.labelListPrice.Text = "Price:";
             this.labelListPrice.Location = new Point(240, y);
             this.labelListPrice.AutoSize = true;
             this.textBoxListPrice.Location = new Point(300, y - 3);
             this.textBoxListPrice.Size = new Size(100, 23);
 
-            this.labelStandardCost.Text = "Costo:";
+            this.labelStandardCost.Text = "Cost:";
             this.labelStandardCost.Location = new Point(420, y);
             this.labelStandardCost.AutoSize = true;
             this.textBoxStandardCost.Location = new Point(470, y - 3);
             this.textBoxStandardCost.Size = new Size(100, 23);
 
-            // Riga 3: Stock e Reorder
+            // Row 3: Stock and Reorder
             y = 85;
-            this.labelSafetyStockLevel.Text = "Stock Sicurezza:";
+            this.labelSafetyStockLevel.Text = "Safety Stock:";
             this.labelSafetyStockLevel.Location = new Point(15, y);
             this.labelSafetyStockLevel.AutoSize = true;
             this.textBoxSafetyStockLevel.Location = new Point(120, y - 3);
             this.textBoxSafetyStockLevel.Size = new Size(80, 23);
 
-            this.labelReorderPoint.Text = "Punto Riordino:";
+            this.labelReorderPoint.Text = "Reorder Point:";
             this.labelReorderPoint.Location = new Point(220, y);
             this.labelReorderPoint.AutoSize = true;
             this.textBoxReorderPoint.Location = new Point(320, y - 3);
             this.textBoxReorderPoint.Size = new Size(80, 23);
 
-            // Riga 4: Flag e data
+            // Row 4: Flags and date
             y = 115;
-            this.checkBoxMakeFlag.Text = "Produzione Interna";
+            this.checkBoxMakeFlag.Text = "Internal Manufacturing";
             this.checkBoxMakeFlag.Location = new Point(15, y);
             this.checkBoxMakeFlag.AutoSize = true;
 
-            this.checkBoxFinishedGoods.Text = "Prodotto Finito";
+            this.checkBoxFinishedGoods.Text = "Finished Good";
             this.checkBoxFinishedGoods.Location = new Point(170, y);
             this.checkBoxFinishedGoods.AutoSize = true;
 
-            this.labelSellStartDate.Text = "Inizio Vendita:";
+            this.labelSellStartDate.Text = "Sell Start:";
             this.labelSellStartDate.Location = new Point(320, y);
             this.labelSellStartDate.AutoSize = true;
             this.dateTimePickerSellStart.Location = new Point(420, y - 3);
             this.dateTimePickerSellStart.Size = new Size(200, 23);
             this.dateTimePickerSellStart.Format = DateTimePickerFormat.Short;
 
-            // Aggiungi controlli al groupbox
+            // Add controls to groupbox
             this.groupBoxDetails.Controls.AddRange(new Control[]
             {
                 this.labelProductID, this.textBoxProductID,
@@ -237,7 +237,7 @@ namespace AdventureWorksApp.Forms
             });
 
             // ============================================================================
-            // panelActions - Pulsanti azione
+            // panelActions - Action buttons
             // ============================================================================
             this.panelActions.Dock = DockStyle.Bottom;
             this.panelActions.Height = 50;
@@ -249,19 +249,19 @@ namespace AdventureWorksApp.Forms
 
             this.buttonNew.Location = new Point(10, 12);
             this.buttonNew.Size = new Size(100, 28);
-            this.buttonNew.Text = "➕ Nuovo";
+            this.buttonNew.Text = "➕ New";
 
             this.buttonSave.Location = new Point(120, 12);
             this.buttonSave.Size = new Size(100, 28);
-            this.buttonSave.Text = "💾 Salva";
+            this.buttonSave.Text = "💾 Save";
 
             this.buttonDelete.Location = new Point(230, 12);
             this.buttonDelete.Size = new Size(100, 28);
-            this.buttonDelete.Text = "🗑️ Elimina";
+            this.buttonDelete.Text = "🗑️ Delete";
 
             this.buttonCancel.Location = new Point(340, 12);
             this.buttonCancel.Size = new Size(100, 28);
-            this.buttonCancel.Text = "❌ Annulla";
+            this.buttonCancel.Text = "❌ Cancel";
 
             this.labelStatus.Location = new Point(460, 17);
             this.labelStatus.Size = new Size(400, 20);
@@ -269,17 +269,17 @@ namespace AdventureWorksApp.Forms
             this.labelStatus.ForeColor = Color.Blue;
 
             // ============================================================================
-            // ProductForm - Configurazione form
+            // ProductForm - Form configuration
             // ============================================================================
             this.AutoScaleDimensions = new SizeF(7F, 15F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new Size(900, 650);
             this.Controls.Add(this.splitContainer);
             this.Name = "ProductForm";
-            this.Text = "Gestione Prodotti - Production.Product";
+            this.Text = "Product Management - Production.Product";
             this.StartPosition = FormStartPosition.CenterParent;
 
-            // Riprendi layout
+            // Resume layout
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
@@ -295,7 +295,7 @@ namespace AdventureWorksApp.Forms
 
         #endregion
 
-        // Controlli principali
+        // Main controls
         private SplitContainer splitContainer;
         private DataGridView dataGridViewProducts;
         private Panel panelSearch;
@@ -303,7 +303,7 @@ namespace AdventureWorksApp.Forms
         private Button buttonSearch;
         private Button buttonRefresh;
 
-        // Controlli dettagli
+        // Detail controls
         private GroupBox groupBoxDetails;
         private Label labelProductID;
         private TextBox textBoxProductID;
@@ -326,7 +326,7 @@ namespace AdventureWorksApp.Forms
         private Label labelSellStartDate;
         private DateTimePicker dateTimePickerSellStart;
 
-        // Controlli azione
+        // Action controls
         private Panel panelActions;
         private Button buttonNew;
         private Button buttonSave;

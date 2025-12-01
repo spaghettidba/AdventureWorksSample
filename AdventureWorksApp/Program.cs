@@ -1,15 +1,15 @@
 /*
  * ============================================================================
- * PUNTO DI INGRESSO DELL'APPLICAZIONE
+ * APPLICATION ENTRY POINT
  * ============================================================================
  * 
- * Questo file contiene il metodo Main che avvia l'applicazione Windows Forms.
- * Configura anche il caricamento delle impostazioni da appsettings.json.
+ * This file contains the Main method that starts the Windows Forms application.
+ * It also configures the loading of settings from appsettings.json.
  * 
- * NOTA DIDATTICA:
- * - STAThread è necessario per Windows Forms (Single Thread Apartment)
- * - ApplicationConfiguration.Initialize() configura DPI e font
- * - La configurazione viene caricata da appsettings.json all'avvio
+ * TEACHING NOTE:
+ * - STAThread is required for Windows Forms (Single Thread Apartment)
+ * - ApplicationConfiguration.Initialize() configures DPI and fonts
+ * - Configuration is loaded from appsettings.json at startup
  * ============================================================================
  */
 
@@ -22,44 +22,44 @@ namespace AdventureWorksApp;
 static class Program
 {
     /// <summary>
-    /// Punto di ingresso principale dell'applicazione.
+    /// Main entry point of the application.
     /// </summary>
     [STAThread]
     static void Main()
     {
-        // Inizializza la configurazione dell'applicazione (DPI, font, etc.)
+        // Initialize application configuration (DPI, fonts, etc.)
         ApplicationConfiguration.Initialize();
         
-        // Carica la configurazione da appsettings.json
+        // Load configuration from appsettings.json
         LoadConfiguration();
         
-        // Avvia l'applicazione con il form principale
+        // Start the application with the main form
         Application.Run(new MainForm());
     }
 
     /// <summary>
-    /// Carica la configurazione da appsettings.json.
+    /// Loads configuration from appsettings.json.
     /// 
-    /// NOTA DIDATTICA:
-    /// - IConfigurationBuilder permette di caricare configurazioni da varie fonti
-    /// - AddJsonFile cerca il file nella directory dell'applicazione
-    /// - optional: true significa che l'app funziona anche senza il file
-    /// - reloadOnChange: true ricarica automaticamente se il file cambia
+    /// TEACHING NOTE:
+    /// - IConfigurationBuilder allows loading configurations from various sources
+    /// - AddJsonFile looks for the file in the application directory
+    /// - optional: true means the app works even without the file
+    /// - reloadOnChange: true automatically reloads if the file changes
     /// </summary>
     private static void LoadConfiguration()
     {
         try
         {
-            // Costruiamo il builder della configurazione
+            // Build the configuration builder
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build();
 
-            // Leggiamo la stringa di connessione dalla configurazione
+            // Read the connection string from configuration
             string? connectionString = configuration.GetConnectionString("AdventureWorks");
             
-            // Se esiste e non è il valore di default, la usiamo
+            // If it exists and is not the default value, use it
             if (!string.IsNullOrWhiteSpace(connectionString) && 
                 !connectionString.Contains("YOUR_SERVER"))
             {
@@ -68,9 +68,9 @@ static class Program
         }
         catch (Exception ex)
         {
-            // Se c'è un errore nella lettura del file, lo ignoriamo
-            // L'utente potrà configurare la connessione manualmente
-            System.Diagnostics.Debug.WriteLine($"Errore caricamento configurazione: {ex.Message}");
+            // If there's an error reading the file, ignore it
+            // The user can configure the connection manually
+            System.Diagnostics.Debug.WriteLine($"Error loading configuration: {ex.Message}");
         }
     }
 }

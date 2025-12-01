@@ -3,14 +3,14 @@
  * DATA ACCESS LAYER: DbConnectionFactory
  * ============================================================================
  * 
- * Questa classe gestisce la creazione delle connessioni al database.
- * Implementa il pattern Factory per centralizzare la creazione delle connessioni.
+ * This class manages the creation of database connections.
+ * It implements the Factory pattern to centralize connection creation.
  * 
- * NOTA DIDATTICA:
- * - Centralizzando la creazione delle connessioni, è facile cambiare
- *   il tipo di database o la logica di connessione in un unico punto
- * - La stringa di connessione può essere modificata a runtime
- * - Usiamo Microsoft.Data.SqlClient per SQL Server
+ * TEACHING NOTE:
+ * - By centralizing connection creation, it's easy to change
+ *   the database type or connection logic in a single place
+ * - The connection string can be modified at runtime
+ * - We use Microsoft.Data.SqlClient for SQL Server
  * ============================================================================
  */
 
@@ -20,18 +20,18 @@ using System.Data;
 namespace AdventureWorksApp.DataAccess
 {
     /// <summary>
-    /// Factory per la creazione di connessioni al database SQL Server.
-    /// Centralizza la gestione della stringa di connessione e la creazione
-    /// degli oggetti connessione.
+    /// Factory for creating SQL Server database connections.
+    /// Centralizes connection string management and the creation
+    /// of connection objects.
     /// </summary>
     public static class DbConnectionFactory
     {
-        // Stringa di connessione al database - modificabile a runtime
+        // Database connection string - modifiable at runtime
         private static string _connectionString = string.Empty;
 
         /// <summary>
-        /// Proprietà per ottenere/impostare la stringa di connessione.
-        /// Può essere impostata dalla form principale dell'applicazione.
+        /// Property to get/set the connection string.
+        /// Can be set from the application's main form.
         /// </summary>
         public static string ConnectionString
         {
@@ -40,45 +40,45 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Verifica se la stringa di connessione è stata configurata
+        /// Checks if the connection string has been configured
         /// </summary>
         public static bool IsConfigured => !string.IsNullOrWhiteSpace(_connectionString);
 
         /// <summary>
-        /// Crea e restituisce una nuova connessione al database.
+        /// Creates and returns a new database connection.
         /// 
-        /// NOTA DIDATTICA:
-        /// - Ogni repository dovrebbe usare questo metodo per ottenere connessioni
-        /// - Le connessioni devono essere sempre chiuse dopo l'uso (using statement)
-        /// - Non manteniamo connessioni aperte statiche per evitare problemi
-        ///   di concorrenza e risorse
+        /// TEACHING NOTE:
+        /// - Each repository should use this method to obtain connections
+        /// - Connections must always be closed after use (using statement)
+        /// - We don't maintain static open connections to avoid concurrency
+        ///   and resource issues
         /// </summary>
-        /// <returns>Una nuova istanza di SqlConnection</returns>
+        /// <returns>A new SqlConnection instance</returns>
         /// <exception cref="InvalidOperationException">
-        /// Se la stringa di connessione non è stata configurata
+        /// If the connection string has not been configured
         /// </exception>
         public static IDbConnection CreateConnection()
         {
             if (!IsConfigured)
             {
                 throw new InvalidOperationException(
-                    "La stringa di connessione non è stata configurata. " +
-                    "Impostare DbConnectionFactory.ConnectionString prima di accedere ai dati.");
+                    "The connection string has not been configured. " +
+                    "Set DbConnectionFactory.ConnectionString before accessing data.");
             }
 
             return new SqlConnection(_connectionString);
         }
 
         /// <summary>
-        /// Testa la connessione al database.
-        /// Utile per verificare che la stringa di connessione sia corretta.
+        /// Tests the database connection.
+        /// Useful for verifying that the connection string is correct.
         /// </summary>
-        /// <returns>True se la connessione è riuscita, false altrimenti</returns>
+        /// <returns>True if the connection was successful, false otherwise</returns>
         public static async Task<(bool Success, string Message)> TestConnectionAsync()
         {
             if (!IsConfigured)
             {
-                return (false, "La stringa di connessione non è stata configurata.");
+                return (false, "The connection string has not been configured.");
             }
 
             try
@@ -86,19 +86,19 @@ namespace AdventureWorksApp.DataAccess
                 using var connection = new SqlConnection(_connectionString);
                 await connection.OpenAsync();
                 
-                // Verifica che il database AdventureWorks esista eseguendo una query semplice
+                // Verify that the AdventureWorks database exists by running a simple query
                 using var command = new SqlCommand("SELECT DB_NAME()", connection);
                 var dbName = await command.ExecuteScalarAsync();
                 
-                return (true, $"Connessione riuscita al database: {dbName}");
+                return (true, $"Successfully connected to database: {dbName}");
             }
             catch (SqlException ex)
             {
-                return (false, $"Errore di connessione SQL: {ex.Message}");
+                return (false, $"SQL connection error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                return (false, $"Errore generico: {ex.Message}");
+                return (false, $"General error: {ex.Message}");
             }
         }
     }

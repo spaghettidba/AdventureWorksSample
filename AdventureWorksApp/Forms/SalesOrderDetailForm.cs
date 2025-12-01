@@ -1,19 +1,19 @@
 /*
  * ============================================================================
- * FORM: SalesOrderDetailForm (Logica)
+ * FORM: SalesOrderDetailForm (Logic)
  * ============================================================================
  * 
- * Form per la gestione dei dettagli ordine dalla tabella Sales.SalesOrderDetail.
+ * Form for managing order details from the Sales.SalesOrderDetail table.
  * 
- * CARATTERISTICHE:
- * - Può mostrare tutti i dettagli o filtrarli per ordine
- * - Mostra le relazioni: visualizza nome prodotto dalla tabella Product
- * - Permette di aggiungere/modificare/eliminare righe ordine
+ * FEATURES:
+ * - Can show all details or filter by order
+ * - Shows relationships: displays product name from the Product table
+ * - Allows adding/modifying/ofeting order lines
  * 
- * NOTA DIDATTICA:
- * - Esempio di form con filtro parametrico
- * - Caricamento dati correlati (prodotti) per selezione
- * - Chiave primaria composita (SalesOrderID + SalesOrderDetailID)
+ * TEACHING NOTE:
+ * - Example of a form with parametric filter
+ * - Loading related data (products) for selection
+ * - Composite primary key (SalesOrderID + SalesOrderDetailID)
  * ============================================================================
  */
 
@@ -23,12 +23,12 @@ using AdventureWorksApp.Models;
 namespace AdventureWorksApp.Forms
 {
     /// <summary>
-    /// Form per la gestione CRUD della tabella Sales.SalesOrderDetail.
+    /// Form for CRUD management of the Sales.SalesOrderDetail table.
     /// </summary>
     public partial class SalesOrderDetailForm : Form
     {
-        // Costante per l'offerta speciale di default (nessuno sconto)
-        // NOTA DIDATTICA: In AdventureWorks, SpecialOfferID = 1 significa "No Discount"
+        // Constant for the default special offer (no discount)
+        // TEACHING NOTE: In AdventureWorks, SpecialOfferID = 1 means "No Discount"
         private const int NO_DISCOUNT_SPECIAL_OFFER_ID = 1;
         
         private readonly SalesOrderDetailRepository _detailRepository;
@@ -41,18 +41,18 @@ namespace AdventureWorksApp.Forms
         private List<Product> _products = new();
 
         /// <summary>
-        /// Costruttore senza parametri - mostra tutti i dettagli.
+        /// Constructor without parameters - shows all details.
         /// </summary>
         public SalesOrderDetailForm() : this(null)
         {
         }
 
         /// <summary>
-        /// Costruttore con ID ordine - mostra solo i dettagli di quell'ordine.
+        /// Constructor with order ID - shows only the details of that order.
         /// 
-        /// NOTA DIDATTICA:
-        /// - Overload del costruttore per supportare diverse modalità di apertura
-        /// - Se orderId è valorizzato, filtriamo automaticamente per quell'ordine
+        /// TEACHING NOTE:
+        /// - Constructor overload to support different opening modes
+        /// - If orderId is set, we automatically filter for that order
         /// </summary>
         public SalesOrderDetailForm(int? orderId)
         {
@@ -86,7 +86,7 @@ namespace AdventureWorksApp.Forms
 
         private async void Form_Load(object? sender, EventArgs e)
         {
-            // Carica i prodotti per la combo box
+            // Load products for the combo box
             await LoadProductsAsync();
             
             // Se abbiamo un ID ordine, filtriamo automaticamente
@@ -94,7 +94,7 @@ namespace AdventureWorksApp.Forms
             {
                 textBoxFilterOrderId.Text = _filteredOrderId.Value.ToString();
                 await LoadDetailsForOrderAsync(_filteredOrderId.Value);
-                // Nascondi i pulsanti di filtro se siamo in modalità filtrata
+                // Hide filter buttons if we are in filtered mode
                 buttonShowAll.Visible = false;
             }
             else
@@ -106,7 +106,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Carica tutti i prodotti per la combo box di selezione.
+        /// Loads all products for the selection combo box.
         /// </summary>
         private async Task LoadProductsAsync()
         {
@@ -117,7 +117,7 @@ namespace AdventureWorksApp.Forms
                 comboBoxProduct.DisplayMember = "DisplayText";
                 comboBoxProduct.ValueMember = "ProductID";
                 
-                // Creiamo una lista anonima con DisplayText formattato
+                // We create an anonymous list with formatted DisplayText
                 var items = _products.Select(p => new
                 {
                     p.ProductID,
@@ -128,61 +128,61 @@ namespace AdventureWorksApp.Forms
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore caricamento prodotti: {ex.Message}", Color.Red);
+                UpdateStatus($"Error loading products: {ex.Message}", Color.Red);
             }
         }
 
         /// <summary>
-        /// Carica tutti i dettagli ordine.
+        /// Loads all order details.
         /// </summary>
         private async Task LoadAllDetailsAsync()
         {
             try
             {
-                UpdateStatus("Caricamento dettagli...", Color.Blue);
+                UpdateStatus("Loading details...", Color.Blue);
                 var details = await _detailRepository.GetAllAsync();
                 dataGridViewDetails.DataSource = details.ToList();
                 ConfigureGridColumns();
                 labelOrderInfo.Text = "";
-                UpdateStatus($"Caricati {details.Count()} dettagli", Color.Green);
+                UpdateStatus($"Loaded {details.Count()} details", Color.Green);
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
             }
         }
 
         /// <summary>
-        /// Carica i dettagli di un ordine specifico.
+        /// Carica i details di un ordine specifico.
         /// 
-        /// NOTA DIDATTICA:
-        /// - Questo metodo mostra come filtrare i dati per una chiave esterna
-        /// - Recuperiamo anche info dell'ordine per mostrarle nell'header
+        /// TEACHING NOTE:
+        /// - This method shows how to filter data by a foreign key
+        /// - We also retrieve order info to show in the header
         /// </summary>
         private async Task LoadDetailsForOrderAsync(int orderId)
         {
             try
             {
-                UpdateStatus("Caricamento dettagli ordine...", Color.Blue);
+                UpdateStatus("Loading details...dine...", Color.Blue);
                 
-                // Carica info ordine
+                // Load order info
                 var order = await _headerRepository.GetByIdAsync(orderId);
                 if (order != null)
                 {
-                    labelOrderInfo.Text = $"Ordine: {order.SalesOrderNumber} del {order.OrderDate:dd/MM/yyyy} - Totale: {order.TotalDue:C}";
-                    this.Text = $"Dettagli Ordine {order.SalesOrderNumber}";
+                    labelOrderInfo.Text = $"Order: {order.SalesOrderNumber} of {order.OrderDate:dd/MM/yyyy} - Total: {order.TotalDue:C}";
+                    this.Text = $"Order Details {order.SalesOrderNumber}";
                 }
                 
-                // Carica dettagli
+                // Carica details
                 var details = await _detailRepository.GetByOrderIdAsync(orderId);
                 dataGridViewDetails.DataSource = details.ToList();
                 ConfigureGridColumns();
                 
-                UpdateStatus($"Caricati {details.Count()} righe per l'ordine", Color.Green);
+                UpdateStatus($"Loaded {details.Count()} lines for the order", Color.Green);
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
             }
         }
 
@@ -195,15 +195,15 @@ namespace AdventureWorksApp.Forms
                 if (dataGridViewDetails.Columns.Contains(col))
                     dataGridViewDetails.Columns[col].Visible = false;
 
-            SetHeader("SalesOrderID", "ID Ordine");
-            SetHeader("SalesOrderDetailID", "ID Riga");
-            SetHeader("SalesOrderNumber", "N° Ordine");
-            SetHeader("ProductID", "ID Prodotto");
-            SetHeader("ProductName", "Prodotto");
-            SetHeader("OrderQty", "Quantità");
-            SetHeader("UnitPrice", "Prezzo Unit.");
-            SetHeader("UnitPriceDiscount", "Sconto");
-            SetHeader("LineTotal", "Totale Riga");
+            SetHeader("SalesOrderID", "Order ID");
+            SetHeader("SalesOrderDetailID", "Line ID");
+            SetHeader("SalesOrderNumber", "Order #");
+            SetHeader("ProductID", "Product ID");
+            SetHeader("ProductName", "Product");
+            SetHeader("OrderQty", "Quantity");
+            SetHeader("UnitPrice", "Unit Price");
+            SetHeader("UnitPriceDiscount", "Discount");
+            SetHeader("LineTotal", "Line Total");
             SetHeader("CarrierTrackingNumber", "Tracking");
         }
 
@@ -234,7 +234,7 @@ namespace AdventureWorksApp.Forms
             textBoxDetailID.Text = detail.SalesOrderDetailID.ToString();
             textBoxOrderNumber.Text = detail.SalesOrderNumber ?? "";
             
-            // Seleziona il prodotto nella combo
+            // Select the product in the combo
             for (int i = 0; i < comboBoxProduct.Items.Count; i++)
             {
                 var item = comboBoxProduct.Items[i];
@@ -276,7 +276,7 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Quando si seleziona un prodotto, aggiorna nome e prezzo.
+        /// When a product is selected, update name and price.
         /// </summary>
         private void ComboBoxProduct_SelectedIndexChanged(object? sender, EventArgs e)
         {
@@ -305,7 +305,7 @@ namespace AdventureWorksApp.Forms
             }
             else
             {
-                MessageBox.Show("Inserisci un ID ordine valido.", "Validazione",
+                MessageBox.Show("Enter a valid order ID.", "Validation",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -319,11 +319,11 @@ namespace AdventureWorksApp.Forms
 
         private void ButtonNew_Click(object? sender, EventArgs e)
         {
-            // Per creare un nuovo dettaglio, dobbiamo avere un ordine selezionato
+            // Per creare un nuovo detailso, dobbiamo avere un ordine selezionato
             if (!_filteredOrderId.HasValue)
             {
-                MessageBox.Show("Per inserire un nuovo dettaglio, filtra prima per un ordine specifico.",
-                    "Attenzione", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Per inserire un nuovo detailso, filtra prima per un ordine specifico.",
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -341,31 +341,31 @@ namespace AdventureWorksApp.Forms
             textBoxDetailID.Text = "(Nuovo)";
             SetNewMode();
             comboBoxProduct.Focus();
-            UpdateStatus("Inserisci i dati della nuova riga ordine", Color.Blue);
+            UpdateStatus("Inserisci i dati ofla nuova riga ordine", Color.Blue);
         }
 
         private async void ButtonSave_Click(object? sender, EventArgs e)
         {
-            // Validazione
+            // Validation
             if (comboBoxProduct.SelectedItem == null)
             {
-                MessageBox.Show("Seleziona un prodotto.", "Validazione",
+                MessageBox.Show("Select a product.", "Validation",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                // Ottieni ID prodotto dalla combo
+                // Get product ID from combo
                 var item = comboBoxProduct.SelectedItem;
                 var propId = item.GetType().GetProperty("ProductID");
                 int productId = (int)propId!.GetValue(item)!;
 
-                // Ottieni il prezzo dal prodotto
+                // Get the price from the product
                 var product = _products.FirstOrDefault(p => p.ProductID == productId);
                 decimal unitPrice = product?.ListPrice ?? 0;
 
-                // Sconto (converti da percentuale a decimale)
+                // Discount (converti da percentuale a decimale)
                 decimal discount = 0;
                 if (decimal.TryParse(textBoxDiscount.Text, out decimal discountPercent))
                 {
@@ -386,23 +386,23 @@ namespace AdventureWorksApp.Forms
 
                 if (_isNewDetail)
                 {
-                    UpdateStatus("Inserimento...", Color.Blue);
+                    UpdateStatus("Inserting...", Color.Blue);
                     int newDetailId = await _detailRepository.InsertAsync(detail);
-                    UpdateStatus($"Riga inserita con ID: {newDetailId}", Color.Green);
-                    MessageBox.Show($"Riga ordine inserita!\nID Dettaglio: {newDetailId}",
-                        "Successo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    UpdateStatus($"Line inserted with ID: {newDetailId}", Color.Green);
+                    MessageBox.Show($"Order line inserted!\nDetail ID: {newDetailId}",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (_currentDetail != null)
                 {
                     detail.SalesOrderDetailID = _currentDetail.SalesOrderDetailID;
-                    UpdateStatus("Salvataggio...", Color.Blue);
+                    UpdateStatus("Saving...", Color.Blue);
                     await _detailRepository.UpdateAsync(detail);
-                    UpdateStatus("Riga aggiornata", Color.Green);
+                    UpdateStatus("Line updated", Color.Green);
                 }
 
                 _isNewDetail = false;
                 
-                // Ricarica i dati
+                // Reload data
                 if (_filteredOrderId.HasValue)
                     await LoadDetailsForOrderAsync(_filteredOrderId.Value);
                 else
@@ -412,8 +412,8 @@ namespace AdventureWorksApp.Forms
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
-                MessageBox.Show($"Errore:\n{ex.Message}", "Errore",
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
+                MessageBox.Show($"Error:\n{ex.Message}", "Errore",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -422,26 +422,26 @@ namespace AdventureWorksApp.Forms
         {
             if (_currentDetail == null || _isNewDetail)
             {
-                MessageBox.Show("Seleziona una riga da eliminare.", "Attenzione",
+                MessageBox.Show("Select a line to delete.", "Warning",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             var result = MessageBox.Show(
-                $"Eliminare la riga {_currentDetail.SalesOrderDetailID} " +
-                $"(Prodotto: {_currentDetail.ProductName})?",
-                "Conferma eliminazione",
+                $"Delete line {_currentDetail.SalesOrderDetailID} " +
+                $"(Product: {_currentDetail.ProductName})?",
+                "Confirm deletion",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes) return;
 
             try
             {
-                UpdateStatus("Eliminazione...", Color.Blue);
+                UpdateStatus("Deleting...", Color.Blue);
                 await _detailRepository.DeleteAsync(
                     _currentDetail.SalesOrderID, 
                     _currentDetail.SalesOrderDetailID);
-                UpdateStatus("Riga eliminata", Color.Green);
+                UpdateStatus("Line deleted", Color.Green);
 
                 _currentDetail = null;
                 ClearDetails();
@@ -455,8 +455,8 @@ namespace AdventureWorksApp.Forms
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
-                MessageBox.Show($"Errore:\n{ex.Message}", "Errore",
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
+                MessageBox.Show($"Error:\n{ex.Message}", "Errore",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -473,7 +473,7 @@ namespace AdventureWorksApp.Forms
                 await LoadAllDetailsAsync();
                 
             SetViewMode();
-            UpdateStatus("Operazione annullata", Color.Gray);
+            UpdateStatus("Operation cancelled", Color.Gray);
         }
 
         private void SetViewMode()
@@ -494,14 +494,14 @@ namespace AdventureWorksApp.Forms
             buttonDelete.Enabled = true;
             buttonCancel.Enabled = true;
             dataGridViewDetails.Enabled = true;
-            // In modifica, non permettiamo di cambiare prodotto
+            // In edit mode, we don't allow changing the product
             comboBoxProduct.Enabled = false;
         }
 
         private void SetNewMode()
         {
             SetControlsEnabled(true);
-            comboBoxProduct.Enabled = true; // In nuovo, possiamo selezionare prodotto
+            comboBoxProduct.Enabled = true; // In new mode, we can select a product
             buttonNew.Enabled = false;
             buttonSave.Enabled = true;
             buttonDelete.Enabled = false;

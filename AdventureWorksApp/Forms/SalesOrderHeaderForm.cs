@@ -1,15 +1,15 @@
 /*
  * ============================================================================
- * FORM: SalesOrderHeaderForm (Logica)
+ * FORM: SalesOrderHeaderForm (Logic)
  * ============================================================================
  * 
- * Form per la gestione degli ordini dalla tabella Sales.SalesOrderHeader.
- * Permette visualizzazione, modifica e navigazione verso i dettagli ordine.
+ * Form for managing orders from the Sales.SalesOrderHeader table.
+ * Allows viewing, modification and navigation to order details.
  * 
- * NOTA DIDATTICA:
- * - Gli ordini hanno molti campi calcolati (TotalDue, SubTotal)
- * - Alcuni campi sono readonly perché gestiti dal database
- * - La navigazione verso SalesOrderDetail mostra le relazioni tra tabelle
+ * TEACHING NOTE:
+ * - Orders have many calculated fields (TotalDue, SubTotal)
+ * - Some fields are readonly because they are managed by the database
+ * - Navigation to SalesOrderDetail shows relationships between tables
  * ============================================================================
  */
 
@@ -19,12 +19,12 @@ using AdventureWorksApp.Models;
 namespace AdventureWorksApp.Forms
 {
     /// <summary>
-    /// Form per la gestione CRUD della tabella Sales.SalesOrderHeader.
+    /// Form for CRUD management of the Sales.SalesOrderHeader table.
     /// </summary>
     public partial class SalesOrderHeaderForm : Form
     {
-        // Costanti per valori di default (usati quando si crea un nuovo ordine)
-        // NOTA DIDATTICA: In produzione questi valori andrebbero selezionati dall'utente
+        // Constants for default values (used when creating a new order)
+        // TEACHING NOTE: In production these values should be selected by the user
         private const int DEFAULT_ADDRESS_ID = 1;
         private const int DEFAULT_SHIP_METHOD_ID = 1;
         
@@ -66,23 +66,23 @@ namespace AdventureWorksApp.Forms
         }
 
         /// <summary>
-        /// Carica gli ordini nella griglia.
+        /// Loads orders into the grid.
         /// </summary>
         private async Task LoadOrdersAsync()
         {
             try
             {
-                UpdateStatus("Caricamento ordini...", Color.Blue);
+                UpdateStatus("Loading orders...", Color.Blue);
                 var orders = await _repository.GetAllAsync();
                 dataGridViewOrders.DataSource = orders.ToList();
                 ConfigureGridColumns();
-                UpdateStatus($"Caricati {orders.Count()} ordini", Color.Green);
+                UpdateStatus($"Loaded {orders.Count()} orders", Color.Green);
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
-                MessageBox.Show($"Errore nel caricamento:\n{ex.Message}",
-                    "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
+                MessageBox.Show($"Error loading:\n{ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -90,7 +90,7 @@ namespace AdventureWorksApp.Forms
         {
             if (dataGridViewOrders.Columns.Count == 0) return;
 
-            // Nascondi colonne tecniche
+            // Hide technical columns
             var hidden = new[] { "rowguid", "ModifiedDate", "RevisionNumber", 
                 "BillToAddressID", "ShipToAddressID", "ShipMethodID", "CreditCardID",
                 "CreditCardApprovalCode", "CurrencyRateID", "SalesPersonID", "TerritoryID",
@@ -100,20 +100,20 @@ namespace AdventureWorksApp.Forms
                 if (dataGridViewOrders.Columns.Contains(col))
                     dataGridViewOrders.Columns[col].Visible = false;
 
-            // Rinomina
+            // Rename
             SetHeader("SalesOrderID", "ID");
-            SetHeader("SalesOrderNumber", "Numero Ordine");
-            SetHeader("OrderDate", "Data Ordine");
-            SetHeader("DueDate", "Data Consegna");
-            SetHeader("ShipDate", "Data Spedizione");
-            SetHeader("Status", "Stato");
+            SetHeader("SalesOrderNumber", "Order Number");
+            SetHeader("OrderDate", "Order Date");
+            SetHeader("DueDate", "Due Date");
+            SetHeader("ShipDate", "Ship Date");
+            SetHeader("Status", "Status");
             SetHeader("OnlineOrderFlag", "Online");
-            SetHeader("CustomerID", "Cliente");
-            SetHeader("SubTotal", "Subtotale");
-            SetHeader("TaxAmt", "Tasse");
-            SetHeader("Freight", "Spedizione");
-            SetHeader("TotalDue", "Totale");
-            SetHeader("Comment", "Commento");
+            SetHeader("CustomerID", "Customer");
+            SetHeader("SubTotal", "Subtotal");
+            SetHeader("TaxAmt", "Taxes");
+            SetHeader("Freight", "Shipping");
+            SetHeader("TotalDue", "Total");
+            SetHeader("Comment", "Comment");
         }
 
         private void SetHeader(string name, string header)
@@ -158,7 +158,7 @@ namespace AdventureWorksApp.Forms
                 dateTimePickerShipDate.Enabled = false;
             }
 
-            // Stato (0-based index)
+            // Status (0-based index)
             if (order.Status >= 1 && order.Status <= 6)
                 comboBoxStatus.SelectedIndex = order.Status - 1;
 
@@ -201,7 +201,7 @@ namespace AdventureWorksApp.Forms
         {
             try
             {
-                UpdateStatus("Ricerca...", Color.Blue);
+                UpdateStatus("Searching...", Color.Blue);
                 
                 var orders = await _repository.SearchAsync(
                     string.IsNullOrWhiteSpace(textBoxSearch.Text) ? null : textBoxSearch.Text,
@@ -210,11 +210,11 @@ namespace AdventureWorksApp.Forms
 
                 dataGridViewOrders.DataSource = orders.ToList();
                 ConfigureGridColumns();
-                UpdateStatus($"Trovati {orders.Count()} ordini", Color.Green);
+                UpdateStatus($"Found {orders.Count()} orders", Color.Green);
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
             }
         }
 
@@ -237,18 +237,18 @@ namespace AdventureWorksApp.Forms
 
             ClearDetails();
             textBoxOrderID.Text = "(Nuovo)";
-            textBoxOrderNumber.Text = "(Generato automaticamente)";
+            textBoxOrderNumber.Text = "(Auto-generated)";
             SetNewMode();
             textBoxCustomerID.Focus();
-            UpdateStatus("Inserisci i dati del nuovo ordine", Color.Blue);
+            UpdateStatus("Enter data for the new order", Color.Blue);
         }
 
         private async void ButtonSave_Click(object? sender, EventArgs e)
         {
-            // Validazione base
+            // Validation base
             if (!int.TryParse(textBoxCustomerID.Text, out int customerId))
             {
-                MessageBox.Show("ID Cliente non valido.", "Validazione",
+                MessageBox.Show("ID Customer non valido.", "Validation",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxCustomerID.Focus();
                 return;
@@ -265,7 +265,7 @@ namespace AdventureWorksApp.Forms
                     ShipDate = checkBoxShipped.Checked ? dateTimePickerShipDate.Value : null,
                     Status = (byte)(comboBoxStatus.SelectedIndex + 1),
                     Comment = string.IsNullOrWhiteSpace(textBoxComment.Text) ? null : textBoxComment.Text,
-                    // Per un nuovo ordine, dobbiamo impostare valori di default per campi obbligatori
+                    // For a new order, we must set default values for required fields
                     BillToAddressID = DEFAULT_ADDRESS_ID,
                     ShipToAddressID = DEFAULT_ADDRESS_ID,
                     ShipMethodID = DEFAULT_SHIP_METHOD_ID,
@@ -276,18 +276,18 @@ namespace AdventureWorksApp.Forms
 
                 if (_isNewOrder)
                 {
-                    UpdateStatus("Inserimento...", Color.Blue);
+                    UpdateStatus("Inserting...", Color.Blue);
                     int newId = await _repository.InsertAsync(order);
-                    UpdateStatus($"Ordine inserito con ID: {newId}", Color.Green);
-                    MessageBox.Show($"Ordine inserito!\nID: {newId}\n\nNOTA: Aggiungi dettagli ordine per completare.",
-                        "Successo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    UpdateStatus($"Order inserted with ID: {newId}", Color.Green);
+                    MessageBox.Show($"Order inserted!\nID: {newId}\n\nNOTA: Add order details to complete.",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (_currentOrder != null)
                 {
                     order.SalesOrderID = _currentOrder.SalesOrderID;
-                    UpdateStatus("Salvataggio...", Color.Blue);
+                    UpdateStatus("Saving...", Color.Blue);
                     await _repository.UpdateAsync(order);
-                    UpdateStatus("Ordine aggiornato", Color.Green);
+                    UpdateStatus("Order updated", Color.Green);
                 }
 
                 _isNewOrder = false;
@@ -296,8 +296,8 @@ namespace AdventureWorksApp.Forms
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
-                MessageBox.Show($"Errore:\n{ex.Message}", "Errore", 
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
+                MessageBox.Show($"Error:\n{ex.Message}", "Error", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -306,24 +306,24 @@ namespace AdventureWorksApp.Forms
         {
             if (_currentOrder == null || _isNewOrder)
             {
-                MessageBox.Show("Seleziona un ordine da eliminare.", "Attenzione",
+                MessageBox.Show("Select an order to delete.", "Warning",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             var result = MessageBox.Show(
-                $"Eliminare l'ordine {_currentOrder.SalesOrderNumber}?\n\n" +
-                "ATTENZIONE: Verranno eliminati anche tutti i dettagli dell'ordine!",
-                "Conferma eliminazione",
+                $"Delete order {_currentOrder.SalesOrderNumber}?\n\n" +
+                "ATTENZIONE: All order details will also be deleted!",
+                "Confirm deletion",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (result != DialogResult.Yes) return;
 
             try
             {
-                UpdateStatus("Eliminazione...", Color.Blue);
+                UpdateStatus("Deleting...", Color.Blue);
                 await _repository.DeleteAsync(_currentOrder.SalesOrderID);
-                UpdateStatus("Ordine eliminato", Color.Green);
+                UpdateStatus("Order deleted", Color.Green);
 
                 _currentOrder = null;
                 ClearDetails();
@@ -332,8 +332,8 @@ namespace AdventureWorksApp.Forms
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Errore: {ex.Message}", Color.Red);
-                MessageBox.Show($"Errore:\n{ex.Message}", "Errore",
+                UpdateStatus($"Error: {ex.Message}", Color.Red);
+                MessageBox.Show($"Error:\n{ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -345,22 +345,22 @@ namespace AdventureWorksApp.Forms
             ClearDetails();
             await LoadOrdersAsync();
             SetViewMode();
-            UpdateStatus("Operazione annullata", Color.Gray);
+            UpdateStatus("Operation cancelled", Color.Gray);
         }
 
         /// <summary>
-        /// Apre la form dei dettagli ordine per l'ordine selezionato.
+        /// Opens the order details form for the selected order.
         /// 
-        /// NOTA DIDATTICA:
-        /// - Questo mostra la navigazione tra tabelle correlate
-        /// - Passiamo l'ID dell'ordine alla form dei dettagli
+        /// TEACHING NOTE:
+        /// - This shows navigation between related tables
+        /// - We pass the order ID to the details form
         /// </summary>
         private void ButtonViewDetails_Click(object? sender, EventArgs e)
         {
             if (_currentOrder == null)
             {
-                MessageBox.Show("Seleziona un ordine per visualizzarne i dettagli.",
-                    "Attenzione", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Select an order to view its details.",
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 

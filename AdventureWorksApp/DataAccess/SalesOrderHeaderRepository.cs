@@ -3,13 +3,13 @@
  * DATA ACCESS LAYER: SalesOrderHeaderRepository
  * ============================================================================
  * 
- * Repository per l'accesso ai dati della tabella Sales.SalesOrderHeader.
- * Gestisce le operazioni CRUD per le intestazioni degli ordini di vendita.
+ * Repository for accessing data from the Sales.SalesOrderHeader table.
+ * Manages CRUD operations for sales order headers.
  * 
- * NOTA DIDATTICA:
- * - Gli ordini hanno relazioni con molte altre tabelle (Customer, Territory, etc.)
- * - Per semplicità didattica, non tutti i campi sono modificabili dall'utente
- * - Alcuni campi come TotalDue sono calcolati automaticamente dal database
+ * TEACHING NOTE:
+ * - Orders have relationships with many other tables (Customer, Territory, etc.)
+ * - For teaching simplicity, not all fields are user-modifiable
+ * - Some fields like TotalDue are automatically calculated by the database
  * ============================================================================
  */
 
@@ -19,18 +19,18 @@ using AdventureWorksApp.Models;
 namespace AdventureWorksApp.DataAccess
 {
     /// <summary>
-    /// Repository per la gestione degli ordini dalla tabella Sales.SalesOrderHeader.
-    /// Fornisce metodi CRUD per interagire con le intestazioni ordine.
+    /// Repository for managing orders from the Sales.SalesOrderHeader table.
+    /// Provides CRUD methods to interact with order headers.
     /// </summary>
     public class SalesOrderHeaderRepository
     {
         /// <summary>
-        /// Ottiene tutti gli ordini dal database.
+        /// Gets all orders from the database.
         /// 
-        /// NOTA DIDATTICA:
-        /// - Limitiamo a 1000 record per non sovraccaricare l'UI
-        /// - In produzione si userebbe la paginazione
-        /// - ORDER BY DESC mostra prima gli ordini più recenti
+        /// TEACHING NOTE:
+        /// - We limit to 1000 records to avoid overloading the UI
+        /// - In production, pagination would be used
+        /// - ORDER BY DESC shows most recent orders first
         /// </summary>
         public async Task<IEnumerable<SalesOrderHeader>> GetAllAsync(int maxRecords = 1000)
         {
@@ -51,7 +51,7 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Ottiene un ordine specifico tramite il suo ID.
+        /// Gets a specific order by its ID.
         /// </summary>
         public async Task<SalesOrderHeader?> GetByIdAsync(int salesOrderId)
         {
@@ -73,11 +73,11 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Cerca ordini per numero ordine o per periodo.
+        /// Searches orders by order number or by period.
         /// 
-        /// NOTA DIDATTICA:
-        /// - Esempio di query con condizioni multiple opzionali
-        /// - Ogni parametro può essere null per non filtrare
+        /// TEACHING NOTE:
+        /// - Example of a query with multiple optional conditions
+        /// - Each parameter can be null to not filter
         /// </summary>
         public async Task<IEnumerable<SalesOrderHeader>> SearchAsync(
             string? orderNumber = null,
@@ -112,12 +112,12 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Inserisce un nuovo ordine nel database.
+        /// Inserts a new order into the database.
         /// 
-        /// NOTA DIDATTICA:
-        /// - TotalDue e altri campi calcolati NON sono inseriti qui
-        /// - Il database li calcola tramite trigger o computed columns
-        /// - In un sistema reale, l'inserimento ordini è molto più complesso
+        /// TEACHING NOTE:
+        /// - TotalDue and other calculated fields are NOT inserted here
+        /// - The database calculates them via triggers or computed columns
+        /// - In a real system, order insertion is much more complex
         /// </summary>
         public async Task<int> InsertAsync(SalesOrderHeader order)
         {
@@ -146,11 +146,11 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Aggiorna un ordine esistente.
+        /// Updates an existing order.
         /// 
-        /// NOTA DIDATTICA:
-        /// - Solo alcuni campi sono aggiornabili dopo la creazione
-        /// - Status, Comment e date di spedizione sono i più comuni
+        /// TEACHING NOTE:
+        /// - Only some fields are updatable after creation
+        /// - Status, Comment and shipping dates are the most common
         /// </summary>
         public async Task<int> UpdateAsync(SalesOrderHeader order)
         {
@@ -171,30 +171,30 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Elimina un ordine dal database.
+        /// Deletes an order from the database.
         /// 
-        /// NOTA DIDATTICA:
-        /// - L'eliminazione deve prima rimuovere i dettagli dell'ordine
-        /// - In produzione si usa una transazione per garantire consistenza
-        /// - Meglio usare soft delete (Status = Cancelled) in produzione
+        /// TEACHING NOTE:
+        /// - Deletion must first remove the order details
+        /// - In production, a transaction is used to ensure consistency
+        /// - Better to use soft delete (Status = Cancelled) in production
         /// </summary>
         public async Task<int> DeleteAsync(int salesOrderId)
         {
             using var connection = DbConnectionFactory.CreateConnection();
             await ((System.Data.Common.DbConnection)connection).OpenAsync();
             
-            // Usiamo una transazione per eliminare prima i dettagli e poi l'header
+            // We use a transaction to delete details first and then the header
             using var transaction = connection.BeginTransaction();
             
             try
             {
-                // Prima eliminiamo i dettagli
+                // First delete the details
                 const string deleteDetailsSql = 
                     "DELETE FROM Sales.SalesOrderDetail WHERE SalesOrderID = @SalesOrderID";
                 await connection.ExecuteAsync(deleteDetailsSql, 
                     new { SalesOrderID = salesOrderId }, transaction);
                 
-                // Poi eliminiamo l'header
+                // Then delete the header
                 const string deleteHeaderSql = 
                     "DELETE FROM Sales.SalesOrderHeader WHERE SalesOrderID = @SalesOrderID";
                 int result = await connection.ExecuteAsync(deleteHeaderSql, 
@@ -211,8 +211,8 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Ottiene gli ordini di un cliente specifico.
-        /// Utile per visualizzare lo storico ordini di un cliente.
+        /// Gets orders for a specific customer.
+        /// Useful for displaying a customer's order history.
         /// </summary>
         public async Task<IEnumerable<SalesOrderHeader>> GetByCustomerIdAsync(int customerId)
         {

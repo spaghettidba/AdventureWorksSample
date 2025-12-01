@@ -3,15 +3,15 @@
  * DATA ACCESS LAYER: ProductRepository
  * ============================================================================
  * 
- * Repository per l'accesso ai dati della tabella Production.Product.
- * Implementa le operazioni CRUD (Create, Read, Update, Delete) usando Dapper.
+ * Repository for accessing data from the Production.Product table.
+ * Implements CRUD operations (Create, Read, Update, Delete) using Dapper.
  * 
- * NOTA DIDATTICA:
- * - Il pattern Repository separa la logica di accesso ai dati dalla logica 
- *   di business e dalla presentazione
- * - Dapper mappa automaticamente i risultati delle query sugli oggetti
- * - Usiamo query parametrizzate per prevenire SQL injection
- * - Tutti i metodi sono async per non bloccare l'interfaccia utente
+ * TEACHING NOTE:
+ * - The Repository pattern separates data access logic from business logic
+ *   and presentation
+ * - Dapper automatically maps query results to objects
+ * - We use parameterized queries to prevent SQL injection
+ * - All methods are async to avoid blocking the user interface
  * ============================================================================
  */
 
@@ -21,18 +21,18 @@ using AdventureWorksApp.Models;
 namespace AdventureWorksApp.DataAccess
 {
     /// <summary>
-    /// Repository per la gestione dei prodotti dalla tabella Production.Product.
-    /// Fornisce metodi CRUD per interagire con i dati dei prodotti.
+    /// Repository for managing products from the Production.Product table.
+    /// Provides CRUD methods to interact with product data.
     /// </summary>
     public class ProductRepository
     {
         /// <summary>
-        /// Ottiene tutti i prodotti dal database.
+        /// Gets all products from the database.
         /// 
-        /// NOTA DIDATTICA:
-        /// - Query() restituisce un IEnumerable che viene mappato automaticamente
-        /// - Il metodo è asincrono (async/await) per non bloccare l'UI
-        /// - ORDER BY assicura un ordinamento consistente
+        /// TEACHING NOTE:
+        /// - Query() returns an IEnumerable that is automatically mapped
+        /// - The method is asynchronous (async/await) to avoid blocking the UI
+        /// - ORDER BY ensures consistent ordering
         /// </summary>
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
@@ -53,12 +53,12 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Ottiene un prodotto specifico tramite il suo ID.
+        /// Gets a specific product by its ID.
         /// 
-        /// NOTA DIDATTICA:
-        /// - QueryFirstOrDefaultAsync restituisce il primo risultato o null
-        /// - Usiamo un oggetto anonimo per passare i parametri alla query
-        /// - I parametri sono prefissati con @ nella query SQL
+        /// TEACHING NOTE:
+        /// - QueryFirstOrDefaultAsync returns the first result or null
+        /// - We use an anonymous object to pass parameters to the query
+        /// - Parameters are prefixed with @ in the SQL query
         /// </summary>
         public async Task<Product?> GetByIdAsync(int productId)
         {
@@ -79,12 +79,12 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Cerca prodotti per nome (ricerca parziale).
+        /// Searches products by name (partial search).
         /// 
-        /// NOTA DIDATTICA:
-        /// - Usiamo LIKE per la ricerca parziale
-        /// - I caratteri % vengono aggiunti in C#, non nella query
-        /// - Questo permette di controllare meglio il tipo di ricerca
+        /// TEACHING NOTE:
+        /// - We use LIKE for partial matching
+        /// - The % characters are added in C#, not in the query
+        /// - This allows better control over the search type
         /// </summary>
         public async Task<IEnumerable<Product>> SearchByNameAsync(string searchTerm)
         {
@@ -106,12 +106,12 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Inserisce un nuovo prodotto nel database.
+        /// Inserts a new product into the database.
         /// 
-        /// NOTA DIDATTICA:
-        /// - OUTPUT INSERTED.ProductID restituisce l'ID generato
-        /// - ExecuteScalarAsync restituisce un singolo valore
-        /// - Impostiamo automaticamente ModifiedDate e rowguid
+        /// TEACHING NOTE:
+        /// - OUTPUT INSERTED.ProductID returns the generated ID
+        /// - ExecuteScalarAsync returns a single value
+        /// - We automatically set ModifiedDate and rowguid
         /// </summary>
         public async Task<int> InsertAsync(Product product)
         {
@@ -140,12 +140,12 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Aggiorna un prodotto esistente.
+        /// Updates an existing product.
         /// 
-        /// NOTA DIDATTICA:
-        /// - L'UPDATE modifica solo i campi specificati
-        /// - ModifiedDate viene aggiornato automaticamente
-        /// - Restituiamo il numero di righe modificate (dovrebbe essere 1)
+        /// TEACHING NOTE:
+        /// - UPDATE only modifies the specified fields
+        /// - ModifiedDate is updated automatically
+        /// - We return the number of modified rows (should be 1)
         /// </summary>
         public async Task<int> UpdateAsync(Product product)
         {
@@ -182,12 +182,12 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Elimina un prodotto dal database.
+        /// Deletes a product from the database.
         /// 
-        /// NOTA DIDATTICA:
-        /// - ATTENZIONE: potrebbero esserci vincoli di integrità referenziale
-        /// - Se il prodotto è referenziato in altre tabelle, l'eliminazione fallirà
-        /// - In produzione, considerare soft delete (flag IsDeleted)
+        /// TEACHING NOTE:
+        /// - WARNING: there may be referential integrity constraints
+        /// - If the product is referenced in other tables, deletion will fail
+        /// - In production, consider soft delete (IsDeleted flag)
         /// </summary>
         public async Task<int> DeleteAsync(int productId)
         {
@@ -199,8 +199,8 @@ namespace AdventureWorksApp.DataAccess
         }
 
         /// <summary>
-        /// Verifica se un prodotto può essere eliminato.
-        /// Controlla se è referenziato in SalesOrderDetail.
+        /// Checks if a product can be deleted.
+        /// Verifies if it is referenced in SalesOrderDetail.
         /// </summary>
         public async Task<bool> CanDeleteAsync(int productId)
         {

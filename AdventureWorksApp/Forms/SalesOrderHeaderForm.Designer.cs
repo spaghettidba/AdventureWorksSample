@@ -3,12 +3,12 @@
  * FORM: SalesOrderHeaderForm (Designer)
  * ============================================================================
  * 
- * Form per la gestione degli ordini dalla tabella Sales.SalesOrderHeader.
- * Mostra la lista degli ordini e permette di visualizzarne i dettagli.
+ * Form for managing orders from the Sales.SalesOrderHeader table.
+ * Shows the list of orders and allows viewing their details.
  * 
- * NOTA DIDATTICA:
- * - Questa form mostra le relazioni: da qui si può navigare ai dettagli ordine
- * - Alcuni campi sono readonly perché calcolati dal database
+ * TEACHING NOTE:
+ * - This form shows relationships: from here you can navigate to order details
+ * - Some fields are readonly because they are calculated by the database
  * ============================================================================
  */
 
@@ -31,7 +31,7 @@ namespace AdventureWorksApp.Forms
 
         private void InitializeComponent()
         {
-            // Controlli principali
+            // Main controls
             this.splitContainer = new SplitContainer();
             this.dataGridViewOrders = new DataGridView();
             this.panelSearch = new Panel();
@@ -43,7 +43,7 @@ namespace AdventureWorksApp.Forms
             this.labelFrom = new Label();
             this.labelTo = new Label();
 
-            // Pannello dettagli
+            // Details panel
             this.groupBoxDetails = new GroupBox();
             this.labelOrderID = new Label();
             this.textBoxOrderID = new TextBox();
@@ -73,7 +73,7 @@ namespace AdventureWorksApp.Forms
             this.checkBoxOnlineOrder = new CheckBox();
             this.buttonViewDetails = new Button();
 
-            // Pulsanti azione
+            // Action buttons
             this.panelActions = new Panel();
             this.buttonNew = new Button();
             this.buttonSave = new Button();
@@ -81,7 +81,7 @@ namespace AdventureWorksApp.Forms
             this.buttonCancel = new Button();
             this.labelStatusBar = new Label();
 
-            // Sospendi layout
+            // Suspend layout
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -100,12 +100,12 @@ namespace AdventureWorksApp.Forms
             this.splitContainer.Size = new Size(1000, 700);
             this.splitContainer.SplitterDistance = 380;
 
-            // Panel1 - Griglia
+            // Panel1 - Grid
             this.splitContainer.Panel1.Controls.Add(this.dataGridViewOrders);
             this.splitContainer.Panel1.Controls.Add(this.panelSearch);
 
             // ============================================================================
-            // panelSearch - Ricerca e filtri
+            // panelSearch - Search and filters
             // ============================================================================
             this.panelSearch.Dock = DockStyle.Top;
             this.panelSearch.Height = 45;
@@ -113,9 +113,9 @@ namespace AdventureWorksApp.Forms
 
             this.textBoxSearch.Location = new Point(10, 12);
             this.textBoxSearch.Size = new Size(150, 23);
-            this.textBoxSearch.PlaceholderText = "Numero ordine...";
+            this.textBoxSearch.PlaceholderText = "Order number...";
 
-            this.labelFrom.Text = "Da:";
+            this.labelFrom.Text = "From:";
             this.labelFrom.Location = new Point(170, 15);
             this.labelFrom.AutoSize = true;
 
@@ -124,7 +124,7 @@ namespace AdventureWorksApp.Forms
             this.dateTimePickerFrom.Format = DateTimePickerFormat.Short;
             this.dateTimePickerFrom.Value = DateTime.Today.AddYears(-1);
 
-            this.labelTo.Text = "A:";
+            this.labelTo.Text = "To:";
             this.labelTo.Location = new Point(325, 15);
             this.labelTo.AutoSize = true;
 
@@ -134,11 +134,11 @@ namespace AdventureWorksApp.Forms
 
             this.buttonSearch.Location = new Point(480, 10);
             this.buttonSearch.Size = new Size(80, 25);
-            this.buttonSearch.Text = "🔍 Cerca";
+            this.buttonSearch.Text = "🔍 Search";
 
             this.buttonRefresh.Location = new Point(570, 10);
             this.buttonRefresh.Size = new Size(100, 25);
-            this.buttonRefresh.Text = "🔄 Aggiorna";
+            this.buttonRefresh.Text = "🔄 Refresh";
 
             this.panelSearch.Controls.AddRange(new Control[] {
                 this.textBoxSearch, this.labelFrom, this.dateTimePickerFrom,
@@ -156,20 +156,20 @@ namespace AdventureWorksApp.Forms
             this.dataGridViewOrders.ReadOnly = true;
             this.dataGridViewOrders.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-            // Panel2 - Dettagli e azioni
+            // Panel2 - Details and actions
             this.splitContainer.Panel2.Controls.Add(this.groupBoxDetails);
             this.splitContainer.Panel2.Controls.Add(this.panelActions);
 
             // ============================================================================
-            // groupBoxDetails - Dettagli ordine
+            // groupBoxDetails - Order details
             // ============================================================================
             this.groupBoxDetails.Dock = DockStyle.Fill;
-            this.groupBoxDetails.Text = "Dettagli Ordine";
+            this.groupBoxDetails.Text = "Order Details";
             this.groupBoxDetails.Padding = new Padding(10);
 
-            // Riga 1
+            // Row 1
             int y = 25;
-            this.labelOrderID.Text = "ID Ordine:";
+            this.labelOrderID.Text = "Order ID:";
             this.labelOrderID.Location = new Point(15, y);
             this.labelOrderID.AutoSize = true;
             this.textBoxOrderID.Location = new Point(100, y - 3);
@@ -177,7 +177,7 @@ namespace AdventureWorksApp.Forms
             this.textBoxOrderID.ReadOnly = true;
             this.textBoxOrderID.BackColor = Color.LightGray;
 
-            this.labelOrderNumber.Text = "Numero:";
+            this.labelOrderNumber.Text = "Number:";
             this.labelOrderNumber.Location = new Point(200, y);
             this.labelOrderNumber.AutoSize = true;
             this.textBoxOrderNumber.Location = new Point(260, y - 3);
@@ -185,37 +185,37 @@ namespace AdventureWorksApp.Forms
             this.textBoxOrderNumber.ReadOnly = true;
             this.textBoxOrderNumber.BackColor = Color.LightGray;
 
-            this.labelCustomerID.Text = "Cliente ID:";
+            this.labelCustomerID.Text = "Customer ID:";
             this.labelCustomerID.Location = new Point(400, y);
             this.labelCustomerID.AutoSize = true;
             this.textBoxCustomerID.Location = new Point(470, y - 3);
             this.textBoxCustomerID.Size = new Size(80, 23);
 
-            this.checkBoxOnlineOrder.Text = "Ordine Online";
+            this.checkBoxOnlineOrder.Text = "Online Order";
             this.checkBoxOnlineOrder.Location = new Point(570, y - 3);
             this.checkBoxOnlineOrder.AutoSize = true;
 
-            // Riga 2 - Date
+            // Row 2 - Dates
             y = 55;
-            this.labelOrderDate.Text = "Data Ordine:";
+            this.labelOrderDate.Text = "Order Date:";
             this.labelOrderDate.Location = new Point(15, y);
             this.labelOrderDate.AutoSize = true;
             this.dateTimePickerOrderDate.Location = new Point(100, y - 3);
             this.dateTimePickerOrderDate.Size = new Size(130, 23);
             this.dateTimePickerOrderDate.Format = DateTimePickerFormat.Short;
 
-            this.labelDueDate.Text = "Data Consegna:";
+            this.labelDueDate.Text = "Due Date:";
             this.labelDueDate.Location = new Point(250, y);
             this.labelDueDate.AutoSize = true;
             this.dateTimePickerDueDate.Location = new Point(350, y - 3);
             this.dateTimePickerDueDate.Size = new Size(130, 23);
             this.dateTimePickerDueDate.Format = DateTimePickerFormat.Short;
 
-            this.checkBoxShipped.Text = "Spedito";
+            this.checkBoxShipped.Text = "Shipped";
             this.checkBoxShipped.Location = new Point(500, y - 3);
             this.checkBoxShipped.AutoSize = true;
 
-            this.labelShipDate.Text = "Data Spedizione:";
+            this.labelShipDate.Text = "Ship Date:";
             this.labelShipDate.Location = new Point(580, y);
             this.labelShipDate.AutoSize = true;
             this.dateTimePickerShipDate.Location = new Point(690, y - 3);
@@ -223,26 +223,26 @@ namespace AdventureWorksApp.Forms
             this.dateTimePickerShipDate.Format = DateTimePickerFormat.Short;
             this.dateTimePickerShipDate.Enabled = false;
 
-            // Riga 3 - Stato
+            // Row 3 - Status
             y = 85;
-            this.labelStatus.Text = "Stato:";
+            this.labelStatus.Text = "Status:";
             this.labelStatus.Location = new Point(15, y);
             this.labelStatus.AutoSize = true;
             this.comboBoxStatus.Location = new Point(100, y - 3);
             this.comboBoxStatus.Size = new Size(150, 23);
             this.comboBoxStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             this.comboBoxStatus.Items.AddRange(new object[] {
-                "1 - In elaborazione",
-                "2 - Approvato",
-                "3 - In attesa merce",
-                "4 - Rifiutato",
-                "5 - Spedito",
-                "6 - Annullato"
+                "1 - In Process",
+                "2 - Approved",
+                "3 - Backordered",
+                "4 - Rejected",
+                "5 - Shipped",
+                "6 - Cancelled"
             });
 
-            // Riga 4 - Importi
+            // Row 4 - Amounts
             y = 120;
-            this.labelSubTotal.Text = "Subtotale:";
+            this.labelSubTotal.Text = "Subtotal:";
             this.labelSubTotal.Location = new Point(15, y);
             this.labelSubTotal.AutoSize = true;
             this.textBoxSubTotal.Location = new Point(100, y - 3);
@@ -250,7 +250,7 @@ namespace AdventureWorksApp.Forms
             this.textBoxSubTotal.ReadOnly = true;
             this.textBoxSubTotal.BackColor = Color.LightYellow;
 
-            this.labelTaxAmt.Text = "Tasse:";
+            this.labelTaxAmt.Text = "Taxes:";
             this.labelTaxAmt.Location = new Point(220, y);
             this.labelTaxAmt.AutoSize = true;
             this.textBoxTaxAmt.Location = new Point(270, y - 3);
@@ -258,7 +258,7 @@ namespace AdventureWorksApp.Forms
             this.textBoxTaxAmt.ReadOnly = true;
             this.textBoxTaxAmt.BackColor = Color.LightYellow;
 
-            this.labelFreight.Text = "Spedizione:";
+            this.labelFreight.Text = "Shipping:";
             this.labelFreight.Location = new Point(390, y);
             this.labelFreight.AutoSize = true;
             this.textBoxFreight.Location = new Point(460, y - 3);
@@ -266,7 +266,7 @@ namespace AdventureWorksApp.Forms
             this.textBoxFreight.ReadOnly = true;
             this.textBoxFreight.BackColor = Color.LightYellow;
 
-            this.labelTotalDue.Text = "TOTALE:";
+            this.labelTotalDue.Text = "TOTAL:";
             this.labelTotalDue.Location = new Point(580, y);
             this.labelTotalDue.AutoSize = true;
             this.labelTotalDue.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -276,20 +276,20 @@ namespace AdventureWorksApp.Forms
             this.textBoxTotalDue.BackColor = Color.LightGreen;
             this.textBoxTotalDue.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
 
-            // Riga 5 - Commento
+            // Row 5 - Comment
             y = 155;
-            this.labelComment.Text = "Commento:";
+            this.labelComment.Text = "Comment:";
             this.labelComment.Location = new Point(15, y);
             this.labelComment.AutoSize = true;
             this.textBoxComment.Location = new Point(100, y - 3);
             this.textBoxComment.Size = new Size(500, 23);
 
-            // Pulsante dettagli
+            // Details button
             this.buttonViewDetails.Location = new Point(620, y - 5);
             this.buttonViewDetails.Size = new Size(150, 28);
-            this.buttonViewDetails.Text = "📋 Vedi Dettagli Ordine";
+            this.buttonViewDetails.Text = "📋 Vedi Order Details";
 
-            // Aggiungi controlli al groupbox
+            // Add controls to groupbox
             this.groupBoxDetails.Controls.AddRange(new Control[] {
                 this.labelOrderID, this.textBoxOrderID,
                 this.labelOrderNumber, this.textBoxOrderNumber,
@@ -315,19 +315,19 @@ namespace AdventureWorksApp.Forms
 
             this.buttonNew.Location = new Point(10, 12);
             this.buttonNew.Size = new Size(100, 28);
-            this.buttonNew.Text = "➕ Nuovo";
+            this.buttonNew.Text = "➕ New";
 
             this.buttonSave.Location = new Point(120, 12);
             this.buttonSave.Size = new Size(100, 28);
-            this.buttonSave.Text = "💾 Salva";
+            this.buttonSave.Text = "�� Save";
 
             this.buttonDelete.Location = new Point(230, 12);
             this.buttonDelete.Size = new Size(100, 28);
-            this.buttonDelete.Text = "🗑️ Elimina";
+            this.buttonDelete.Text = "🗑️ Delete";
 
             this.buttonCancel.Location = new Point(340, 12);
             this.buttonCancel.Size = new Size(100, 28);
-            this.buttonCancel.Text = "❌ Annulla";
+            this.buttonCancel.Text = "❌ Cancel";
 
             this.labelStatusBar.Location = new Point(460, 17);
             this.labelStatusBar.Size = new Size(500, 20);
@@ -346,10 +346,10 @@ namespace AdventureWorksApp.Forms
             this.ClientSize = new Size(1000, 700);
             this.Controls.Add(this.splitContainer);
             this.Name = "SalesOrderHeaderForm";
-            this.Text = "Gestione Ordini - Sales.SalesOrderHeader";
+            this.Text = "Order Management - Sales.SalesOrderHeader";
             this.StartPosition = FormStartPosition.CenterParent;
 
-            // Riprendi layout
+            // Resume layout
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
@@ -365,7 +365,7 @@ namespace AdventureWorksApp.Forms
 
         #endregion
 
-        // Controlli principali
+        // Main controls
         private SplitContainer splitContainer;
         private DataGridView dataGridViewOrders;
         private Panel panelSearch;
@@ -377,7 +377,7 @@ namespace AdventureWorksApp.Forms
         private Label labelFrom;
         private Label labelTo;
 
-        // Controlli dettagli
+        // Detail controls
         private GroupBox groupBoxDetails;
         private Label labelOrderID;
         private TextBox textBoxOrderID;
@@ -407,7 +407,7 @@ namespace AdventureWorksApp.Forms
         private CheckBox checkBoxOnlineOrder;
         private Button buttonViewDetails;
 
-        // Controlli azione
+        // Action controls
         private Panel panelActions;
         private Button buttonNew;
         private Button buttonSave;
